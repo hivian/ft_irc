@@ -6,6 +6,7 @@ SRC			= srcs/
 
 SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/init.c \
+			  $(SRC)server/client.c \
 
 SRC_C		= $(SRC)client/main.c \
 

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 10:40:18 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 12:00:19 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct		s_env
 void				init_fd(t_env *e);
 void				init_env(t_env *e);
 void				check_fd(t_env *e);
+void				srv_accept(t_env *e);
+void				clean_fd(int i, t_env *e);
 void				print_error(char *str);
 
 #endif

@@ -6,11 +6,18 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 10:37:38 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 12:40:55 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_irc.h"
+
+void				clean_fd(int i, t_env *e)
+{
+	e->fds[i].type = FD_FREE;
+	e->fds[i].fct_read = NULL;
+	e->fds[i].fct_write = NULL;
+}
 
 void				check_fd(t_env *e)
 {
@@ -21,6 +28,7 @@ void				check_fd(t_env *e)
 	{
 		if (FD_ISSET(i, &e->fd_read))
 			e->fds[i].fct_read(e, i);
+		printf("i = %d\n", i);
 		if (FD_ISSET(i, &e->fd_write))
 			e->fds[i].fct_write(e, i);
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
@@ -42,9 +50,7 @@ void				init_env(t_env *e)
 	i = 0;
 	while (i < e->maxfd)
 	{
-		e->fds[i].type = FD_FREE;
-	    e->fds[i].fct_read = NULL;
-	    e->fds[i].fct_write = NULL;
+		clean_fd(i, e);
 		i++;
 	}
 }
