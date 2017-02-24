@@ -6,31 +6,28 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/23 11:58:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 10:29:43 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_irc.h"
 
-static void				init_fd(t_env *e)
+void					print_error(char *str)
 {
-	int	i;
+	fprintf(stderr, "%s\n", str);
+	exit(EXIT_FAILURE);
+}
 
-	i = 0;
-	e->max = 0;
-	FD_ZERO(&e->fd_read);
-	FD_ZERO(&e->fd_write);
-	while (i < e->maxfd)
+static void				run_server(t_env *e)
+{
+	init_env(e);
+	while (true)
 	{
-		if (e->fds[i].type != FD_FREE)
-		{
-			FD_SET(i, &e->fd_read);
-			if (strlen(e->fds[i].buf_write) > 0)
-				FD_SET(i, &e->fd_write);
-			e->max = MAX(e->max, i);
-		}
-		i++;
+		init_fd(e);
+		e->ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
+		check_fd(e);
 	}
+	free(e->fds);
 }
 
 static int				create_server(int port)
@@ -41,16 +38,13 @@ static int				create_server(int port)
 
 	proto = getprotobyname("tcp");
 	if (!proto)
-		return (-1);
+		print_error("Bind error");
 	sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
-	{
-		ft_putendl("Bind error");
-		exit(-1);
-	}
+	if (bind(sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
+		print_error("Bind error");
 	listen(sock, 42);
 	return (sock);
 }
@@ -62,14 +56,10 @@ int				main(int ac, char **av)
 	int			sock;
 
 	if (ac != 2)
-	{
-		ft_putendl("Usage : ./serveur <port>");
-		exit(EXIT_FAILURE);
-	}
+		print_error(USAGE);
 	port = atoi(av[1]);
-	//printf("%d\n", port);
 	sock = create_server(port);
-	init_fd(&e);
+	run_server(&e);
 	close(sock);
 	return (0);
 }
