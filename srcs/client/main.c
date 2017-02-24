@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 14:59:35 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 15:59:33 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void					print_error(char *str)
 static void		get_localhost(t_env *e)
 {
 	char		*buf;
+	char		*tmp;
 	size_t		size;
 	int			res;
 
@@ -31,12 +32,12 @@ static void		get_localhost(t_env *e)
 	while (getline(&buf, &size, e->file) > 0)
 	{
 		e->localhost = (char*)malloc(sizeof(char) * strlen(buf) + 1);
-		if ((res = sscanf(buf, "%s prout", e->localhost)) > 0)
-		{
-			printf("TOTO\n");
+		tmp = (char*)malloc(sizeof(char) * strlen(buf) + 1);
+		if ((res = sscanf(buf, "%s %s", e->localhost, tmp)) > 0 && \
+		!strcmp(tmp, "localhost"))
 			return ;
-		}
 		free(e->localhost);
+		free(tmp);
 	}
 	print_error("localhost not found");
 }
