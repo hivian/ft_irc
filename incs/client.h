@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 13:01:13 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 14:50:46 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,21 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
+# define BUF_SIZE	4096
+# define USAGE		"Usage: ./client <machine> <port>"
+
+typedef struct		s_env
+{
+	int				port;
+	int				sock;
+	int				ret;
+	fd_set			fd_read;
+	fd_set			fd_write;
+
+	FILE			*file;
+	char			*localhost;
+}					t_env;
+
+void				print_error(char *str);
 
 #endif
