@@ -6,11 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 12:40:55 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 12:59:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.h"
+#include "server.h"
 
 void				clean_fd(int i, t_env *e)
 {

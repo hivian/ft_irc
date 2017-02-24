@@ -6,11 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/23 10:30:36 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 13:00:13 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.h"
+#include "client.h"
 
 int			main(int ac, char **av)
 {

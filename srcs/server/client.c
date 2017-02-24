@@ -6,11 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 12:42:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/24 12:59:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.h"
+#include "server.h"
 
 static void				client_write(t_env *e, int cs)
 {
