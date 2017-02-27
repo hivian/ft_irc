@@ -6,17 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 10:02:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 12:46:05 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
-
-static void				client_write(t_env *e, int cs)
-{
-	printf("TOTO = %d\n", cs);
-	send(4, "Welcome to my IRC\n\0", 50, 0);
-}
 
 void					print_error(char *str)
 {

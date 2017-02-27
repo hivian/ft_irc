@@ -1,6 +1,7 @@
 NAME_S 		= serveur
 NAME_C		= client
 CC 	 		= clang
+#-Wall -Wextra -Werror
 
 SRC			= srcs/
 

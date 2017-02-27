@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:25:16 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 12:49:59 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ void				client_write(t_env *e, int cs)
 	int				i;
 
 	i = 0;
-	while (i < e->maxfd)
-	{
-		if (e->fds[i].type == FD_CLIENT && i != cs)
-			send(i, e->fds[cs].buf_write, ret, 0);
-		i++;
-	}
+	send(cs, e->fds[cs].buf_write, sizeof(e->fds[cs].buf_write), 0);
 }
 
 void				client_read(t_env *e, int cs)

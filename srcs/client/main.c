@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:23:26 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 12:47:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void				run_client(t_env *e)
 {
 	int					ret;
 	char				buf[BUF_SIZE + 1];
-	int num;
 
 	printf("Connected to server\n");
 	while (true)

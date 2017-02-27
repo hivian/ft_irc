@@ -6,11 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:05:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 12:48:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "server.h"
 
 void				clean_fd(int i, t_env *e)
 {
@@ -27,14 +27,10 @@ void				check_fd(t_env *e)
 	while (i < e->maxfd && e->ret > 0)
 	{
 		if (FD_ISSET(i, &e->fd_read))
-		{
 			e->fds[i].fct_read(e, i);
-		}
-		printf("i = %d\n", i);
+		//printf("i = %d\n", i);
 		if (FD_ISSET(i, &e->fd_write))
-		{
 			e->fds[i].fct_write(e, i);
-		}
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
 			e->ret--;
 		i++;
