@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:00:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 15:24:43 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,13 @@ void				check_fd(t_env *e)
 		printf("i = %d\n", i);
 		if (FD_ISSET(i, &e->fd_write))
 		{
-			printf("WRITE\n");
-			e->fds[i].fct_write(e, i);
+			//e->fds[i].fct_write(e, i);
+			send(e->sock, e->fds[i].buf_write, strlen(e->fds[i].buf_write), 0);
+            memset(&e->fds[i].buf_write, 0, BUF_SIZE);
+		}
+		if(FD_ISSET(STDIN_FILENO, &e->fd_read))
+		{
+			read(0, e->fds[i].buf_write, BUF_SIZE);
 		}
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
 			e->ret--;
@@ -69,12 +74,14 @@ void				init_fd(t_env *e)
 	e->max = 0;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
+	FD_SET(STDIN_FILENO, &e->fd_write);
+	FD_SET(STDIN_FILENO, &e->fd_read);
 	while (i < e->maxfd)
 	{
 		if (e->fds[i].type != FD_FREE)
 		{
 			FD_SET(i, &e->fd_read);
-			if (strlen(e->fds[i].buf_write) > 0)
+			//if (strlen(e->fds[i].buf_write) > 0)
 				FD_SET(i, &e->fd_write);
 			e->max = MAX(e->max, i);
 		}

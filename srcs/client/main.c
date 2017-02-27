@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:47:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 15:18:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ static void				run_client(t_env *e)
 	printf("Connected to server\n");
 	while (true)
 	{
-		if ((ret = read(0, buf, BUF_SIZE)) < 0)
-			print_error("read error");
-		if (buf[ret - 1] == '\n')
-			strcpy(e->fds[e->sock].buf_write, buf);
 		get_time(e);
 		ft_putstr("\033[36m[");
 		ft_putstr(e->strtime);
@@ -77,8 +73,8 @@ static void		create_client(t_env *e)
 	if (connect(e->sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
 		print_error("Connect error");
 	e->fds[e->sock].type = FD_CLIENT;
-	e->fds[e->sock].fct_read = client_read;
 	e->fds[e->sock].fct_write = client_write;
+	e->fds[e->sock].fct_read = client_read;
 }
 
 int				main(int ac, char **av)

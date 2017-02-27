@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:49:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 15:13:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void				client_write(t_env *e, int cs)
 {
-	char			buf[BUF_SIZE + 1];
-	int				ret;
-	int				i;
-
-	i = 0;
-	send(cs, e->fds[cs].buf_write, sizeof(e->fds[cs].buf_write), 0);
+	//printf("TOTO\n");
+	if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n' && \
+	ft_strcmp(ft_strtrim(e->fds[cs].buf_write), ""))
+	{
+		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
+		//memset(&e->fds[cs].buf_write, 0, BUF_SIZE);
+	}
 }
 
 void				client_read(t_env *e, int cs)
