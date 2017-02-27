@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 12:59:58 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 10:02:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void				create_server(t_env *e)
 
 	proto = getprotobyname("tcp");
 	if (!proto)
-		print_error("Bind error");
+		print_error("getprotobyname error");
 	e->sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(e->port);
@@ -52,7 +52,7 @@ static void				create_server(t_env *e)
 	listen(e->sock, 42);
 	e->fds[e->sock].type = FD_SERV;
     e->fds[e->sock].fct_read = srv_accept;
-	e->fds[e->sock].fct_write = client_write;
+	//e->fds[e->sock].fct_write = client_write;
 	printf("sock = %d\n", e->sock);
 }
 

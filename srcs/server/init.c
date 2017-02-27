@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 12:59:58 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 10:01:19 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void				check_fd(t_env *e)
 	{
 		if (FD_ISSET(i, &e->fd_read))
 			e->fds[i].fct_read(e, i);
-		printf("i = %d\n", i);
+		//printf("i = %d\n", i);
 		if (FD_ISSET(i, &e->fd_write))
 			e->fds[i].fct_write(e, i);
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))

@@ -9,6 +9,7 @@ SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/client.c \
 
 SRC_C		= $(SRC)client/main.c \
+			  $(SRC)client/util.c \
 
 OBJ_S  		= $(SRC_S:%.c=%.o)
 OBJ_C		= $(SRC_C:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/24 14:50:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 09:07:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ typedef struct		s_env
 {
 	int				port;
 	int				sock;
+	char			*addr;
 	int				ret;
 	fd_set			fd_read;
 	fd_set			fd_write;
-
 	FILE			*file;
-	char			*localhost;
+	char			strtime[26];
 }					t_env;
 
 void				print_error(char *str);
+void				get_time(t_env *e);
 
 #endif
