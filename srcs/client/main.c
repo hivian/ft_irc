@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 10:10:29 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/27 12:23:26 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,19 @@ static void				run_client(t_env *e)
 	printf("Connected to server\n");
 	while (true)
 	{
+		if ((ret = read(0, buf, BUF_SIZE)) < 0)
+			print_error("read error");
+		if (buf[ret - 1] == '\n')
+			strcpy(e->fds[e->sock].buf_write, buf);
 		get_time(e);
 		ft_putstr("\033[36m[");
 		ft_putstr(e->strtime);
 		ft_putstr("] Me $> \033[0m");
-		if ((ret = read(0, buf, BUF_SIZE)) < 0)
-		{
-			close(e->sock);
-			print_error("Disconnected");
-		}
-		buf[ret] = '\0';
-		if ((send(e->sock, buf, BUF_SIZE, 0)) < 0)
-			print_error("Failure sending message");
-		else
-		{
-			ft_putstr("Client:Message being sent:");
-			ft_putendl(buf);
-            num = recv(e->sock, buf, sizeof(buf),0);
-			if ( num <= 0 )
-            {
-                ft_putendl("Either Connection Closed or Error");
-                break;
-            }
-            buf[num] = '\0';
-			ft_putstr("Client:Message Received From Server -  ");
-			ft_putendl(buf);
-		}
+		init_fd(e);
+		e->ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
+		check_fd(e);
 	}
+	free(e->fds);
 }
 
 static void		create_client(t_env *e)
@@ -91,6 +77,9 @@ static void		create_client(t_env *e)
 	sin.sin_addr.s_addr = inet_addr(e->addr);
 	if (connect(e->sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
 		print_error("Connect error");
+	e->fds[e->sock].type = FD_CLIENT;
+	e->fds[e->sock].fct_read = client_read;
+	e->fds[e->sock].fct_write = client_write;
 }
 
 int				main(int ac, char **av)
@@ -104,6 +93,8 @@ int				main(int ac, char **av)
 	else
 		e.addr = av[1];
 	e.port = atoi(av[2]);
+	//handle_signal();
+	init_env(&e);
 	create_client(&e);
 	run_client(&e);
 	close(e.sock);
