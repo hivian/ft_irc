@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 15:18:16 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 10:20:59 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,12 @@ static void				run_client(t_env *e)
 	int					ret;
 	char				buf[BUF_SIZE + 1];
 
+	struct timeval waitd = {10, 0};
 	printf("Connected to server\n");
 	while (true)
 	{
-		get_time(e);
-		ft_putstr("\033[36m[");
-		ft_putstr(e->strtime);
-		ft_putstr("] Me $> \033[0m");
 		init_fd(e);
-		e->ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
+		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, &waitd);
 		check_fd(e);
 	}
 	free(e->fds);
