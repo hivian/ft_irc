@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:43:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 14:30:41 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-# define BUF_SIZE	4096
+# define BUF_SIZE	512
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2

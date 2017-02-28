@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 12:22:57 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 16:30:57 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 typedef struct		s_fd
 {
 	int				type;
+	char			*channel;
+	char			*nickname;
  	void			(*fct_read)();
 	void			(*fct_write)();
  	char			buf_read[BUF_SIZE];
@@ -66,8 +68,11 @@ void				check_fd(t_env *e);
 void				clean_fd(int i, t_env *e);
 void				client_write(t_env *e, int cs);
 void				client_read(t_env *e, int cs);
+void				run_cmd(t_env *e, int cs);
 void				print_error(char *str);
 void				get_time(t_env *e);
 void				handle_signal(void);
+char				*fill_with(int len, char c);
+void				clean_buffer(t_env *e, char *nick);
 
 #endif
