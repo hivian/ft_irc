@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 10:20:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 12:14:47 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void		get_localhost(t_env *e)
 static void				run_client(t_env *e)
 {
 	int					ret;
-	char				buf[BUF_SIZE + 1];
 
 	struct timeval waitd = {10, 0};
 	printf("Connected to server\n");

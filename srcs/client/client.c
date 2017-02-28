@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 11:03:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 12:40:44 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ void				client_write(t_env *e, int cs)
 {
 	if (strcmp(ft_strtrim(e->fds[cs].buf_write), ""))
 	{
-		get_time(e);
-		ft_putstr("\033[36m[");
-		ft_putstr(e->strtime);
-		ft_putstr("] Me $> \033[0m");
-		ft_putstr(e->fds[cs].buf_write);
+		strcat(e->concat_send, e->fds[cs].buf_write);
+		if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
+		{
+			get_time(e);
+			printf("\033[36m[%s] Me #%d $>\033[0m %s", \
+			e->strtime, cs, e->concat_send);
+			memset(e->concat_send, 0, BUF_SIZE);
+		}
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
-		memset(&e->fds[cs].buf_write, 0, BUF_SIZE);
+		memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 	}
 }
 
@@ -35,16 +38,19 @@ void				client_read(t_env *e, int cs)
 	{
 		close(cs);
 		clean_fd(cs, e);
+		print_error("Recv error");
 		printf("Client #%d gone away\n", cs);
 	}
 	e->fds[cs].buf_read[ret] = '\0';
-	//printf("len = %d\n", ret);
-	if (e->fds[cs].buf_read[ret - 1] == '\n')
+	if (strcmp(ft_strtrim(e->fds[cs].buf_read), ""))
 	{
-		get_time(e);
-		ft_putstr("[\033[33m");
-		ft_putstr(e->strtime);
-		ft_putstr("] Server $> \033[0m");
+		strcat(e->concat_recv, e->fds[cs].buf_read);
+		if (e->fds[cs].buf_read[ret - 1] == '\n')
+		{
+			get_time(e);
+			printf("[\033[33m[%s] Client #%d $>\033[0m %s", \
+			e->strtime, cs, e->concat_recv);
+			memset(e->concat_recv, 0, BUF_SIZE);
+		}
 	}
-	ft_putstr(e->fds[cs].buf_read);
 }

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:09:42 by hivian           ###   ########.fr       */
+/*   Updated: 2017/02/28 12:22:57 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ typedef struct		s_fd
 	int				type;
  	void			(*fct_read)();
 	void			(*fct_write)();
- 	char			buf_read[BUF_SIZE + 1];
-	char			buf_write[BUF_SIZE + 1];
+ 	char			buf_read[BUF_SIZE];
+	char			buf_write[BUF_SIZE];
 }					t_fd;
 
 typedef struct		s_env
 {
-	t_fd			*fds;
 	int				maxfd;
 	int				max;
 	int				port;
@@ -56,6 +55,9 @@ typedef struct		s_env
 	fd_set			fd_write;
 	FILE			*file;
 	char			strtime[26];
+	char			concat_send[BUF_SIZE];
+	char			concat_recv[BUF_SIZE];
+	t_fd			*fds;
 }					t_env;
 
 void				init_fd(t_env *e);
