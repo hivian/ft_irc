@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 12:34:04 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 15:11:32 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				client_read(t_env *e, int cs);
 int					run_cmd(t_env *e, int cs);
 void				print_error(char *str);
 void				get_time(t_env *e);
-void				handle_signal(void);
+void				handle_signal(int sig);
 void				clean_input(t_env *e, char *nick);
 int					gen_rand_nb(void);
 void				print_prompt(t_env *e);

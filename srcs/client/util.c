@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 12:15:31 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 16:48:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int						gen_rand_nb(void)
 
 void					print_prompt(t_env *e)
 {
-	//printf("len1 = %lu\n", strlen("\033[36m"));
-	//printf("len2 = %lu\n", strlen("\033[0m"));
 	ft_putstr("\033[36m");
 	ft_putstr(e->fds[e->sock].user.nickname);
 	ft_putstr(" $> ");
@@ -63,16 +61,8 @@ void					clean_input(t_env *e, char *nick)
 	memset(tmp, 0, BUF_SIZE);
 }
 
-static void		run_signal(int sig)
+void			handle_signal(int sig)
 {
 	(void)sig;
 	printf("ENTER\n");
-}
-
-void			handle_signal(void)
-{
-	int		i;
-
-	i = 0;
-	signal(SIGINT, &run_signal);
 }

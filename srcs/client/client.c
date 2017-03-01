@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 11:36:30 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 16:27:35 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,16 @@ void				client_read(t_env *e, int cs)
 {
 	int					ret;
 	int					i;
+	char				*src;
+	t_user				user;
 
+	src = NULL;
+	recv(cs, &user, sizeof(t_user), O_CLOEXEC);
+	if (!strcmp(user.nickname, ""))
+	{
+		src = "==";
+		clean_input(e, "123456789abcdef");
+	}
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) < 0)
 	{
 		close(cs);
@@ -44,9 +53,14 @@ void				client_read(t_env *e, int cs)
 		strcat(e->concat_recv, e->fds[cs].buf_read);
 		if (e->fds[cs].buf_read[ret - 1] == '\n')
 		{
-			get_time(e);
-			clean_input(e, "Clienttttttttttttttt");
-			printf("\033[33mClient $>\033[0m %s", e->concat_recv);
+			if (!src)
+			{
+				src = user.nickname;
+				clean_input(e, "123456789abcdef");
+				printf("\033[33m%s $>\033[0m %s", src, e->concat_recv);
+			}
+			else
+				printf("\033[31m%s\033[0m %s", src, e->concat_recv);
 			memset(e->concat_recv, 0, BUF_SIZE);
 		}
 	}

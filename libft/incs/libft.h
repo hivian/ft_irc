@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 13:24:35 by hivian            #+#    #+#             */
-/*   Updated: 2017/01/10 10:43:39 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 16:47:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char				*ft_conv_base(unsigned long int n, char *str, char *base);
 char				*ft_set_unicode(char *buff, wchar_t wc);
 char				**ft_arrdup(char **array);
 int					ft_arrlen(char **array);
-void				ft_arrdel(char ***array);
+void				ft_arrdel(char **array);
 
 typedef struct		s_list
 {

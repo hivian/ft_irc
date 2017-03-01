@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 12:29:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 15:57:27 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ static void				client_read(t_env *e, int cs)
 	else
 	{
 		i = 0;
-		while (i < e->maxfd)
+		run_cmd(e, cs);
+		/*while (i < e->maxfd)
 		{
 			if (e->fds[i].type == FD_CLIENT && i != cs)
 				send(i, e->fds[cs].buf_read, ret, 0);
 			i++;
-		}
+		}*/
 	}
 }
 
@@ -51,7 +52,7 @@ void					srv_accept(t_env *e)
 	cslen = sizeof(csin);
 	if ((cs = accept(e->sock, (struct sockaddr *)&csin, &cslen)) < 0)
 		print_error("Connection failed");
-	recv(cs, &e->fds[cs].user, sizeof(t_user), 0);
+	recv(cs, &e->fds[cs].user, sizeof(t_user), O_CLOEXEC);
 	printf("STRUCT = %s\n", e->fds[cs].user.channel);
 	printf("New client #%d from %s:%d, fd = %d\n", cs,
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port), cs);

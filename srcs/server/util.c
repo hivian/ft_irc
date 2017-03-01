@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 14:41:24 by hivian           ###   ########.fr       */
+/*   Created: 2017/03/01 16:49:16 by hivian            #+#    #+#             */
+/*   Updated: 2017/03/01 16:49:30 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "server.h"
 
-int				run_cmd(t_env *e, int cs)
+int				get_fd_from_usr(t_env *e, char *name)
 {
-	char		**arr;
+	int			i;
 
-	//printf("input = %s", e->fds[cs].buf_write);
-	if (e->fds[cs].buf_write[0] == '/')
+	i = 0;
+	while (i <= e->max)
 	{
-		arr = ft_strsplit(e->fds[cs].buf_write, ' ');
-		if (!strcmp(arr[0], "/msg") && ft_arrlen(arr) == 3)
-		{
-
-			while (*arr)
-			{
-			//	printf("> %s\n", *arr);
-				arr++;
-			}
-		}
+		if (!strcmp(e->fds[i].user.nickname, name))
+			return (i);
+		i++;
 	}
-	return (0);
+	return (-1);
 }

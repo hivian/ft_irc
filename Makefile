@@ -8,6 +8,9 @@ SRC			= srcs/
 SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/init.c \
 			  $(SRC)server/client.c \
+			  $(SRC)server/cmd.c \
+			  $(SRC)server/list_cmd.c \
+			  $(SRC)server/util.c \
 
 SRC_C		= $(SRC)client/main.c \
 			  $(SRC)client/init.c \
