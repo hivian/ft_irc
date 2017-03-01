@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 16:50:48 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 09:37:37 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,18 @@ void					clean_buffer(t_env *e, char *nick)
 {
 	char				*tmp;
 
-	tmp = fill_with(strlen(nick) + 5, '\b');
+	tmp = fill_with(strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write), '\b');
 	ft_putstr(tmp);
 	ft_strdel(&tmp);
-	tmp = fill_with(strlen(nick) + 5, ' ');
+	tmp = fill_with(strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write), ' ');
 	ft_putstr(tmp);
 	ft_strdel(&tmp);
-	tmp = fill_with(strlen(nick) + 5, '\b');
+	if (e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write) - 1] != '\n')
+	{
+		//tmp = fill_with(strlen(nick) + 4
+		ft_putstr("  \b\b");
+	}
+	tmp = fill_with(strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write), '\b');
 	ft_putstr(tmp);
 	ft_strdel(&tmp);
 }
