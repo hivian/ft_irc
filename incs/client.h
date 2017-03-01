@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 12:14:33 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:34:04 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 typedef struct		s_user
 {
-	char			*channel;
+	char			channel[50];
 	char			nickname[16];
 }					t_user;
 

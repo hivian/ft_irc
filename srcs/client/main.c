@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 12:28:49 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:34:59 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void				run_client(t_env *e)
 	printf("#                                                             #\n");
 	printf("===============================================================\n");
 	printf("\033[1;30mConnected to %s:%d\033[0m\n", e->addr, e->port);
-	printf("\033[33mJoined #%s\033[0m\n", e->fds[e->sock].user.channel);
+	printf("\033[33mJoined %s\033[0m\n", e->fds[e->sock].user.channel);
 	while (true)
 	{
 		print_prompt(e);
@@ -85,7 +85,7 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].type = FD_CLIENT;
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
-	e->fds[e->sock].user.channel = "ft_irc-default";
+	strcpy(e->fds[e->sock].user.channel, "#ft_irc-default");
 	strcpy(concat, "Guest");
 	strcat(concat, ft_itoa(gen_rand_nb()));
 	strcpy(e->fds[e->sock].user.nickname, concat);
