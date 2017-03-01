@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 17:09:47 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 11:36:30 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void				client_read(t_env *e, int cs)
 		if (e->fds[cs].buf_read[ret - 1] == '\n')
 		{
 			get_time(e);
-			clean_buffer(e, "Clienttttttttttttttt");
+			clean_input(e, "Clienttttttttttttttt");
 			printf("\033[33mClient $>\033[0m %s", e->concat_recv);
 			memset(e->concat_recv, 0, BUF_SIZE);
 		}
