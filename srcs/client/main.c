@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 11:42:35 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:28:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static void				run_client(t_env *e)
 	printf("#                                                             #\n");
 	printf("===============================================================\n");
 	printf("\033[1;30mConnected to %s:%d\033[0m\n", e->addr, e->port);
-	printf("\033[33mJoined #%s\033[0m\n", e->fds[e->sock].channel);
+	printf("\033[33mJoined #%s\033[0m\n", e->fds[e->sock].user.channel);
 	while (true)
 	{
 		print_prompt(e);
 		init_fd(e);
 		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, 0);
 		check_fd(e);
-		clean_input(e, e->fds[e->sock].nickname);
+		clean_input(e, e->fds[e->sock].user.nickname);
 	}
 	free(e->fds);
 }
@@ -85,10 +85,11 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].type = FD_CLIENT;
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
-	e->fds[e->sock].channel = "ft_irc-default";
+	e->fds[e->sock].user.channel = "ft_irc-default";
 	strcpy(concat, "Guest");
 	strcat(concat, ft_itoa(gen_rand_nb()));
-	e->fds[e->sock].nickname = strdup(concat);
+	strcpy(e->fds[e->sock].user.nickname, concat);
+	send(e->sock, &e->fds[e->sock].user, sizeof(t_user), 0);
 }
 
 int				main(int ac, char **av)
@@ -106,7 +107,7 @@ int				main(int ac, char **av)
 	init_env(&e);
 	create_client(&e);
 	run_client(&e);
-	ft_strdel(&e.fds[e.sock].nickname);
+	//ft_strdel(&e.fds[e.sock].user.nickname);
 	close(e.sock);
 	return (0);
 }

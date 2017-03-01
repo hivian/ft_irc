@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 11:36:19 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:14:33 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,20 @@
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage: ./client <machine> <port>"
 
+typedef struct		s_user
+{
+	char			*channel;
+	char			nickname[16];
+}					t_user;
+
 typedef struct		s_fd
 {
 	int				type;
-	char			*channel;
-	char			*nickname;
  	void			(*fct_read)();
 	void			(*fct_write)();
  	char			buf_read[BUF_SIZE];
 	char			buf_write[BUF_SIZE];
+	t_user			user;
 }					t_fd;
 
 typedef struct		s_env
@@ -68,7 +73,7 @@ void				check_fd(t_env *e);
 void				clean_fd(int i, t_env *e);
 void				client_write(t_env *e, int cs);
 void				client_read(t_env *e, int cs);
-void				run_cmd(t_env *e, int cs);
+int					run_cmd(t_env *e, int cs);
 void				print_error(char *str);
 void				get_time(t_env *e);
 void				handle_signal(void);

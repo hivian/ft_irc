@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 11:41:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:15:31 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void					print_prompt(t_env *e)
 	//printf("len1 = %lu\n", strlen("\033[36m"));
 	//printf("len2 = %lu\n", strlen("\033[0m"));
 	ft_putstr("\033[36m");
-	ft_putstr(e->fds[e->sock].nickname);
+	ft_putstr(e->fds[e->sock].user.nickname);
 	ft_putstr(" $> ");
 	ft_putstr("\033[0m");
 }

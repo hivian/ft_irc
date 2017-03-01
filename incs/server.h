@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/28 14:30:41 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/01 12:24:18 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage : ./serveur <port>"
 
+typedef struct		s_user
+{
+	char			*channel;
+	char			nickname[16];
+}					t_user;
+
 typedef struct		s_fd
 {
 	int				type;
@@ -41,6 +47,7 @@ typedef struct		s_fd
 	void			(*fct_write)();
  	char			buf_read[BUF_SIZE + 1];
 	char			buf_write[BUF_SIZE + 1];
+	t_user			user;
 }					t_fd;
 
 typedef struct		s_env
