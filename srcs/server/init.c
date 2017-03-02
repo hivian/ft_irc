@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/02/27 12:48:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 16:57:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void				check_fd(t_env *e)
 	{
 		if (FD_ISSET(i, &e->fd_read))
 			e->fds[i].fct_read(e, i);
-		//printf("i = %d\n", i);
 		if (FD_ISSET(i, &e->fd_write))
 			e->fds[i].fct_write(e, i);
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
@@ -48,7 +47,7 @@ void				init_env(t_env *e)
 	if (!(e->fds = (t_fd*)malloc(sizeof(*e->fds) * e->maxfd)))
 		print_error("malloc: failed");
 	i = 0;
-	while (i < e->maxfd)
+	while (i <= e->maxfd)
 	{
 		clean_fd(i, e);
 		i++;

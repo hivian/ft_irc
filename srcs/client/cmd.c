@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 12:38:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 17:27:02 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ int				run_cmd(t_env *e, int cs)
 		clean_input(e);
 		if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
 			join_chan(e, cs, input_arr);
-		if (!strcmp(input_arr[0], "/quit") && ft_arrlen(input_arr) == 1)
+		else if (!strcmp(input_arr[0], "/quit") && ft_arrlen(input_arr) == 1)
 			leave_chan(e, cs, input_arr);
-		else if (strcmp(input_arr[0], "/msg"))
+		else if (!strcmp(input_arr[0], "/msg") && ft_arrlen(input_arr) > 2)
+		{}
+		else
 			printf("\033[31mUnknow command\033[0m\n");
 		ft_arrdel(input_arr);
 	}

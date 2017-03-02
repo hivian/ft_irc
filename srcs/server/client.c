@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 11:49:06 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 16:55:59 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ static void				client_write(t_env *e, int cs)
 static void				client_read(t_env *e, int cs)
 {
 	int					ret;
-	int					i;
 	t_user				user;
 
+	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 	recv(cs, &user, sizeof(t_user), 0);
 	ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
+	e->fds[cs].buf_read[ret] = '\0';
 	if (ret <= 0)
 	{
 		close(cs);
@@ -34,14 +35,10 @@ static void				client_read(t_env *e, int cs)
 	}
 	else
 	{
-		i = 0;
-		run_cmd(e, cs, user);
-		/*while (i < e->maxfd)
-		{
-			if (e->fds[i].type == FD_CLIENT && i != cs)
-				send(i, e->fds[cs].buf_read, ret, 0);
-			i++;
-		}*/
+		if (e->fds[cs].buf_read[0] == '/')
+			run_cmd(e, cs, user);
+		else
+			send_to_chan(e, e->fds[cs].buf_read, cs, user);
 	}
 }
 
