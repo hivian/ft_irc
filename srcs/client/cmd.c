@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 10:29:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 11:46:32 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int				run_cmd(t_env *e, int cs)
 				printf("\033[31mChannel name too long\033[0m\n");
 			else if (input_arr[1][0] != '#')
 				printf("\033[31mChannel must begin with #\033[0m\n");
+			else if (strlen(input_arr[1]) < 4)
+				printf("\033[31mChannel name too short\033[0m\n");
 			else
 			{
 				memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
 				strcpy(e->fds[e->sock].user.channel, input_arr[1]);
-				printf("NEW CHAN = %s\n", e->fds[e->sock].user.channel);
 			}
 		}
 		else if (strcmp(input_arr[0], "/msg"))

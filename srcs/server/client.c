@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 15:57:27 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 11:49:06 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static void				client_read(t_env *e, int cs)
 {
 	int					ret;
 	int					i;
+	t_user				user;
 
+	recv(cs, &user, sizeof(t_user), 0);
 	ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
 	if (ret <= 0)
 	{
@@ -33,7 +35,7 @@ static void				client_read(t_env *e, int cs)
 	else
 	{
 		i = 0;
-		run_cmd(e, cs);
+		run_cmd(e, cs, user);
 		/*while (i < e->maxfd)
 		{
 			if (e->fds[i].type == FD_CLIENT && i != cs)
@@ -53,7 +55,6 @@ void					srv_accept(t_env *e)
 	if ((cs = accept(e->sock, (struct sockaddr *)&csin, &cslen)) < 0)
 		print_error("Connection failed");
 	recv(cs, &e->fds[cs].user, sizeof(t_user), O_CLOEXEC);
-	printf("STRUCT = %s\n", e->fds[cs].user.channel);
 	printf("New client #%d from %s:%d, fd = %d\n", cs,
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port), cs);
 	clean_fd(cs, e);

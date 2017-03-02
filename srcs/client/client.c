@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 10:25:37 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 11:49:36 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void				client_write(t_env *e, int cs)
 	strcat(e->concat_send, e->fds[cs].buf_write);
 	if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
 		memset(e->concat_send, 0, BUF_SIZE);
+	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
+	//printf("NEW CHAN = %s\n", e->fds[e->sock].user.channel);
 }
 
 static void			print_recv(t_env *e, int cs, char *server, t_user user)
