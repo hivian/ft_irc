@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 11:48:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 12:14:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int				run_cmd(t_env *e, int cs, t_user user)
 			memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
 			strcpy(e->fds[cs].user.channel, user.channel);
 			//send(cs, "")
+		}
+		if (!strcmp(input_arr[0], "/quit") && ft_arrlen(input_arr) == 2)
+		{
+			//memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
+			//send(cs,)
 		}
 		else
 		{
