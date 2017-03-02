@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 16:48:40 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 10:11:12 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <stdbool.h>
 
 # define BUF_SIZE	512
+# define NICK_SIZE	16
+# define CHAN_SIZE	50
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
@@ -38,6 +40,7 @@ typedef struct		s_user
 {
 	char			channel[50];
 	char			nickname[16];
+	bool			whisper;
 }					t_user;
 
 typedef struct		s_fd

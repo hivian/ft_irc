@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 16:48:58 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 10:25:12 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ void					print_prompt(t_env *e)
 	ft_putstr("\033[0m");
 }
 
-void					clean_input(t_env *e, char *nick)
+void					clean_input(t_env *e)
 {
 	char				tmp[BUF_SIZE];
 
 	memset(tmp, 0, BUF_SIZE);
-	memset(tmp, '\b', strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write));
+	memset(tmp, '\b', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
 	ft_putstr(tmp);
 	memset(tmp, 0, BUF_SIZE);
-	memset(tmp, ' ', strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write));
+	memset(tmp, ' ', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
 	ft_putstr(tmp);
 	memset(tmp, 0, BUF_SIZE);
-	memset(tmp, '\b', strlen(nick) + 4 + strlen(e->fds[e->sock].buf_write));
+	memset(tmp, '\b', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
 	if (e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write) - 1] != '\n')
 		ft_putstr("  \b\b");
 	ft_putstr(tmp);

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 15:59:29 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 09:45:22 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void				create_server(t_env *e)
     e->fds[e->sock].fct_read = srv_accept;
 	memset(e->fds[e->sock].user.channel, 0, 50);
 	memset(e->fds[e->sock].user.nickname, 0, 16);
+	e->fds[e->sock].user.whisper = false;
 }
 
 int				main(int ac, char **av)

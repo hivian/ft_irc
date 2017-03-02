@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 14:41:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 10:29:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,29 @@
 
 int				run_cmd(t_env *e, int cs)
 {
-	char		**arr;
+	char		**input_arr;
 
 	//printf("input = %s", e->fds[cs].buf_write);
 	if (e->fds[cs].buf_write[0] == '/')
 	{
-		arr = ft_strsplit(e->fds[cs].buf_write, ' ');
-		if (!strcmp(arr[0], "/msg") && ft_arrlen(arr) == 3)
+		input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
+		clean_input(e);
+		if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
 		{
-
-			while (*arr)
+			if (strlen(input_arr[1]) > CHAN_SIZE)
+				printf("\033[31mChannel name too long\033[0m\n");
+			else if (input_arr[1][0] != '#')
+				printf("\033[31mChannel must begin with #\033[0m\n");
+			else
 			{
-			//	printf("> %s\n", *arr);
-				arr++;
+				memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
+				strcpy(e->fds[e->sock].user.channel, input_arr[1]);
+				printf("NEW CHAN = %s\n", e->fds[e->sock].user.channel);
 			}
 		}
+		else if (strcmp(input_arr[0], "/msg"))
+			printf("\033[31mUnknow command\033[0m\n");
+		ft_arrdel(input_arr);
 	}
 	return (0);
 }

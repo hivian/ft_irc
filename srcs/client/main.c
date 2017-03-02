@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 15:12:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/02 10:25:51 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void				run_client(t_env *e)
 		init_fd(e);
 		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, 0);
 		check_fd(e);
-		clean_input(e, e->fds[e->sock].user.nickname);
+		clean_input(e);
 	}
 	free(e->fds);
 }
