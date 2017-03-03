@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 10:47:39 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 12:44:50 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,14 @@ void			send_to_chan(t_env *e, char *message, int sock, t_user user)
 int				run_cmd(t_env *e, int cs, t_user user)
 {
 	char		**input_arr;
-	char		concat[20 + NICK_SIZE];
 
 	input_arr = ft_strsplit(e->fds[cs].buf_read, ' ');
-	memset(concat, 0, 20 + NICK_SIZE);
+	if (!strcmp(input_arr[0], "/nick") && ft_arrlen(input_arr) == 2)
+		change_nick(e, cs, input_arr, user);
 	if (!strcmp(input_arr[0], "/msg") && ft_arrlen(input_arr) > 2)
 		send_msg(e, input_arr, cs);
-	else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2 && \
-	input_arr[1][0] == '#' && strlen(input_arr[1]) > 3 \
-	&& strlen(input_arr[1]) < CHAN_SIZE)
-	{
-		memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
-		strcpy(e->fds[cs].user.channel, user.channel);
-		strcat(concat, e->fds[cs].user.nickname);
-		strcat(concat, " has joined channel\n");
-		send_to_chan(e, concat, e->sock, user);
-	}
+	else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
+		join_chan(e, cs, input_arr, user);
 	else if (!strcmp(input_arr[0], "/leave") && ft_arrlen(input_arr) == 2)
 	{
 	}

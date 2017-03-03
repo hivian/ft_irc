@@ -6,13 +6,13 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 10:54:27 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 12:10:00 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void		print_help()
+void			print_help(void)
 {
 	printf("===================== - List of commands - ====================\n");
 	printf("#                                                             #\n");
@@ -25,26 +25,6 @@ static void		print_help()
 	printf("===============================================================\n");
 }
 
-static void		leave_chan(t_env *e, int cs, char **input_arr)
-{
-	//memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
-}
-
-static void		join_chan(t_env *e, int cs, char **input_arr)
-{
-	if (strlen(input_arr[1]) > CHAN_SIZE)
-		printf("\033[31mChannel name too long\033[0m\n");
-	else if (input_arr[1][0] != '#')
-		printf("\033[31mChannel must begin with #\033[0m\n");
-	else if (strlen(input_arr[1]) < 4)
-		printf("\033[31mChannel name too short\033[0m\n");
-	else
-	{
-		memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
-		strcpy(e->fds[e->sock].user.channel, input_arr[1]);
-	}
-}
-
 int				run_cmd(t_env *e, int cs)
 {
 	char		**input_arr;
@@ -54,10 +34,12 @@ int				run_cmd(t_env *e, int cs)
 	{
 		input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
 		clean_input(e);
-		if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
+		if (!strcmp(input_arr[0], "/nick") && ft_arrlen(input_arr) == 2)
+			change_nick(e, cs, input_arr);
+		else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
 			join_chan(e, cs, input_arr);
-		else if (!strcmp(input_arr[0], "/quit\n") && ft_arrlen(input_arr) == 1)
-			leave_chan(e, cs, input_arr);
+		//else if (!strcmp(input_arr[0], "/quit\n") && ft_arrlen(input_arr) == 1)
+		//	leave_chan(e, cs, input_arr);
 		else if (!strcmp(input_arr[0], "/help\n"))
 			print_help();
 		else if (!strcmp(input_arr[0], "/msg") && ft_arrlen(input_arr) > 2)

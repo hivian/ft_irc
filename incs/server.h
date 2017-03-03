@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 13:58:05 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 12:04:29 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
 int					run_cmd(t_env *e, int cs, t_user user);
 void				send_msg(t_env *e, char **input_arr, int cs);
+void				join_chan(t_env *e, int cs, char **input_arr, t_user user);
+void				change_nick(t_env *e, int cs, char **input_arr, t_user user);
 int					get_fd_from_usr(t_env *e, char *name);
 void				send_to_chan(t_env *e, char *mess, int sock, t_user user);
 void				clean_fd(int i, t_env *e);

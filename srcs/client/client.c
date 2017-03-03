@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 10:32:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 12:40:02 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void				client_write(t_env *e, int cs)
 {
+	
 	if (run_cmd(e, cs) < 0)
 		return ;
-	strcat(e->concat_send, e->fds[cs].buf_write);
-	if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
-		memset(e->concat_send, 0, BUF_SIZE);
+	//strcat(e->concat_send, e->fds[cs].buf_write);
+	//if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
+	//	memset(e->concat_send, 0, BUF_SIZE);
 	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);

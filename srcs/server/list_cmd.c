@@ -6,12 +6,47 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 10:13:27 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 12:04:19 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
+void			join_chan(t_env *e, int cs, char **input_arr, t_user user)
+{
+	char		concat[CHAN_SIZE + 20];
+
+	memset(concat, 0, CHAN_SIZE + 20);
+	if (input_arr[1][0] == '#'  && strlen(input_arr[1]) > 3 \
+	&& strlen(input_arr[1]) <= CHAN_SIZE)
+	{
+		memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
+		strcpy(e->fds[cs].user.channel, user.channel);
+		strcat(concat, e->fds[cs].user.nickname);
+		strcat(concat, " has joined channel\n");
+		send_to_chan(e, concat, e->sock, user);
+	}
+}
+
+void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
+{
+	char		concat[NICK_SIZE * 2 + 22];
+	char		tmp[NICK_SIZE];
+
+	memset(concat, 0, NICK_SIZE * 2 + 22);
+	memset(tmp, 0, NICK_SIZE);
+	if (input_arr[1][0] != '#' && strlen(input_arr[1]) <= NICK_SIZE)
+	{
+		strcpy(tmp, e->fds[cs].user.nickname);
+		memset(e->fds[cs].user.nickname, 0, NICK_SIZE);
+		strcpy(e->fds[cs].user.nickname, user.nickname);
+		strcat(concat, tmp);
+		strcat(concat, " has changed nick to ");
+		strcat(concat, e->fds[cs].user.nickname);
+		strcat(concat, "\n");
+		send_to_chan(e, concat, e->sock, user);
+	}
+}
 
 void			send_msg(t_env *e, char **input_arr, int cs)
 {
