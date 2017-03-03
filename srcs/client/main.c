@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/02 10:25:51 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 10:40:04 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,14 @@ static void		get_localhost(t_env *e)
 static void				run_client(t_env *e)
 {
 	int					ret;
+	struct timeval		waitd = {5, 0};
 
-	struct timeval waitd = {1, 0};
-	printf("================== Welcome to my IRC server ===================\n");
-	printf("#                    - List of commands -                     #\n");
-	printf("#                                                             #\n");
-	printf("#    /nick <nickname>           : change your nickname        #\n");
-	printf("#    /join, /leave [#channel]                                 #\n");
-	printf("#    /who                       : who is logged ?             #\n");
-	printf("#    /msg <nick> <message>                                    #\n");
-	printf("#    /connect <machine> [port]                                #\n");
-	printf("#                                                             #\n");
-	printf("===============================================================\n");
-	printf("\033[1;30mConnected to %s:%d\033[0m\n", e->addr, e->port);
-	printf("\033[33mJoined %s\033[0m\n", e->fds[e->sock].user.channel);
+	//waitd = (struct timeval){5, 0};
+	printf("\033[1;30m- Connected to %s:%d\033[0m\n", e->addr, e->port);
+	printf("\033[1;30m- Joined %s\033[0m\n", e->fds[e->sock].user.channel);
+	printf("\033[1;30m- /help : list of commmands\033[0m\n");
 	while (true)
 	{
-		signal(SIGURG, &handle_signal);
 		print_prompt(e);
 		init_fd(e);
 		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, 0);
@@ -107,7 +98,6 @@ int				main(int ac, char **av)
 	init_env(&e);
 	create_client(&e);
 	run_client(&e);
-	//ft_strdel(&e.fds[e.sock].user.nickname);
 	close(e.sock);
 	return (0);
 }
