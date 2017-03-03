@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 12:40:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 15:38:27 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void				client_write(t_env *e, int cs)
 {
-	
-	if (run_cmd(e, cs) < 0)
-		return ;
-	//strcat(e->concat_send, e->fds[cs].buf_write);
-	//if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
-	//	memset(e->concat_send, 0, BUF_SIZE);
-	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
-	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
+	if (e->fds[cs].buf_write[0] == '/')
+		run_cmd(e, cs);
+	else
+	{
+		//strcat(e->concat_send, e->fds[cs].buf_write);
+		//if (e->fds[cs].buf_write[strlen(e->fds[cs].buf_write) - 1] == '\n')
+		//	memset(e->concat_send, 0, BUF_SIZE);
+		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
+		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
+	}
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
-	//printf("NEW CHAN = %s\n", e->fds[e->sock].user.channel);
 }
 
 static void			print_recv(t_env *e, int cs, char *server, t_user user)
@@ -70,5 +71,10 @@ void				client_read(t_env *e, int cs)
 		printf("Recv error\n");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
+	if (!strcmp(e->fds[e->sock].buf_read, "Nickname is already in use\n"))
+	{
+		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
+		strcpy(e->fds[e->sock].user.nickname, e->nick_backup);
+	}
 	print_recv(e, cs, server, user);
 }

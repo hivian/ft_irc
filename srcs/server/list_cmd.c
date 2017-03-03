@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 12:04:19 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 15:25:39 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,25 @@ void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
 
 	memset(concat, 0, NICK_SIZE * 2 + 22);
 	memset(tmp, 0, NICK_SIZE);
-	if (input_arr[1][0] != '#' && strlen(input_arr[1]) <= NICK_SIZE)
+	if (input_arr[1][0] != '#' && strlen(input_arr[1]) <= NICK_SIZE && \
+	strcmp(ft_strtrim(input_arr[1]), ""))
 	{
-		strcpy(tmp, e->fds[cs].user.nickname);
-		memset(e->fds[cs].user.nickname, 0, NICK_SIZE);
-		strcpy(e->fds[cs].user.nickname, user.nickname);
-		strcat(concat, tmp);
-		strcat(concat, " has changed nick to ");
-		strcat(concat, e->fds[cs].user.nickname);
-		strcat(concat, "\n");
-		send_to_chan(e, concat, e->sock, user);
+		if (duplicate_user(e, cs, user.nickname))
+		{
+			send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
+			send(cs, "Nickname is already in use\n", 27, 0);
+		}
+		else
+		{
+			strcpy(tmp, e->fds[cs].user.nickname);
+			memset(e->fds[cs].user.nickname, 0, NICK_SIZE);
+			strcpy(e->fds[cs].user.nickname, user.nickname);
+			strcat(concat, tmp);
+			strcat(concat, " has changed nick to ");
+			strcat(concat, e->fds[cs].user.nickname);
+			strcat(concat, "\n");
+			send_to_chan(e, concat, e->sock, user);
+		}
 	}
 }
 
