@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 15:06:19 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 16:58:28 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define BUF_SIZE	512
 # define NICK_SIZE	16
 # define CHAN_SIZE	50
+# define DATE_SIZE	26
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
@@ -63,6 +64,7 @@ typedef struct		s_env
 	int				ret;
 	fd_set			fd_read;
 	fd_set			fd_write;
+	char			strtime[DATE_SIZE];
 }					t_env;
 
 void				init_fd(t_env *e);
@@ -73,10 +75,12 @@ int					run_cmd(t_env *e, int cs, t_user user);
 void				send_msg(t_env *e, char **input_arr, int cs);
 void				join_chan(t_env *e, int cs, char **input_arr, t_user user);
 void				change_nick(t_env *e, int cs, char **input_arr, t_user user);
+void				who(t_env *e, int cs, t_user user);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);
 void				send_to_chan(t_env *e, char *mess, int sock, t_user user);
 void				clean_fd(int i, t_env *e);
 void				print_error(char *str);
+void				get_time(t_env *e);
 
 #endif

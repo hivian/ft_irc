@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 12:49:01 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 17:03:54 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ static void				server_read(t_env *e, int cs)
 	e->fds[cs].buf_read[ret] = '\0';
 	if (ret <= 0)
 	{
-		clean_fd(cs, e);
-		close(cs);
-		printf("Client #%d gone away\n", cs);
-		strcat(concat, user.nickname);
+		get_time(e);
+		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
+		strcat(concat, e->fds[cs].user.nickname);
 		strcat(concat, " leaved the channel\n");
 		send_to_chan(e, concat, e->sock, user);
+		clean_fd(cs, e);
+		close(cs);
 	}
 	else
 	{
@@ -52,14 +53,14 @@ void					srv_accept(t_env *e)
 	int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			cslen;
-	//char				concat[CHAN_SIZE + 20];
 
 	cslen = sizeof(csin);
+	get_time(e);
 	if ((cs = accept(e->sock, (struct sockaddr *)&csin, &cslen)) < 0)
-		print_error("Connection failed");
+		printf("\033[31m[%s]\033[0m Client connection failed", e->strtime);
 	recv(cs, &e->fds[cs].user, sizeof(t_user), O_CLOEXEC);
-	printf("New client #%d from %s:%d, fd = %d\n", cs,
-		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port), cs);
+	printf("\033[31m[%s]\033[0m New client #%d from %s:%d\n", e->strtime, cs,
+		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
 	send(cs, "Welcome to this IRC server\n", 27, 0);
 	clean_fd(cs, e);

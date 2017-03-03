@@ -6,11 +6,31 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 15:25:39 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/03 17:14:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
+
+void		who(t_env *e, int cs, t_user user)
+{
+	int		i;
+
+	i = 0;
+	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
+	while (i <= e->max)
+	{
+		if (e->fds[i].type == FD_CLIENT && \
+		!strcmp(e->fds[i].user.channel, user.channel))
+		{
+			send(cs, "\b\b\b\033[31m>\033[0m ", 14, 0);
+			send(cs, e->fds[i].user.nickname, \
+				strlen(e->fds[i].user.nickname), 0);
+			send(cs, "\n", 1, 0);
+		}
+		i++;
+	}
+}
 
 void			join_chan(t_env *e, int cs, char **input_arr, t_user user)
 {
