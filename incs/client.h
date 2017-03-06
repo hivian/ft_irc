@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/06 12:35:40 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/06 16:05:09 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,10 @@ typedef struct		s_env
 	fd_set			fd_write;
 	FILE			*file;
 	char			strtime[26];
-	char			concat_send[BUF_SIZE];
-	char			concat_recv[BUF_SIZE];
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
 	bool			cmd_who;
+	char			*concat_recv;
 }					t_env;
 
 void				init_fd(t_env *e);

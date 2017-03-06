@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/06 12:32:35 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/06 17:09:06 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static void				server_read(t_env *e, int cs)
 	e->fds[cs].buf_read[ret] = '\0';
 	if (ret <= 0)
 	{
-		get_time(e);
-		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
 		strcat(concat, e->fds[cs].user.nickname);
-		strcat(concat, " leaved the channel\n");
-		send_to_chan(e, concat, e->sock, user);
 		clean_fd(cs, e);
 		close(cs);
+		get_time(e);
+		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
+		strcat(concat, " leaved the channel\n");
+		send_to_chan(e, concat, e->sock, user);
 	}
 	else
 	{
@@ -63,7 +63,6 @@ void					srv_accept(t_env *e)
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
 	send(cs, "Welcome to this IRC server\n", 27, 0);
-	clean_fd(cs, e);
 	e->fds[cs].type = FD_CLIENT;
 	e->fds[cs].fct_read = server_read;
 	e->fds[cs].fct_write = server_write;
