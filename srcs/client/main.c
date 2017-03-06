@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 10:40:04 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/06 12:44:15 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,19 @@ static void		get_localhost(t_env *e)
 static void				run_client(t_env *e)
 {
 	int					ret;
-	struct timeval		waitd = {5, 0};
 
-	//waitd = (struct timeval){5, 0};
 	printf("\033[1;30m- Connected to %s:%d\033[0m\n", e->addr, e->port);
 	printf("\033[1;30m- Joined %s\033[0m\n", e->fds[e->sock].user.channel);
 	printf("\033[1;30m- /help : list of commmands\033[0m\n");
 	while (true)
 	{
+		//clean_input(e);
 		print_prompt(e);
 		init_fd(e);
 		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, 0);
 		check_fd(e);
 		clean_input(e);
 	}
-	free(e->fds);
 }
 
 static void				create_client(t_env *e)
@@ -99,5 +97,7 @@ int				main(int ac, char **av)
 	create_client(&e);
 	run_client(&e);
 	close(e.sock);
+	if (e.fds)
+		free(e.fds);
 	return (0);
 }

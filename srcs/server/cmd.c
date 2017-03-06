@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 16:33:38 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/06 12:31:35 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int				run_cmd(t_env *e, int cs, t_user user)
 	else if (!strcmp(input_arr[0], "/who\n") && ft_arrlen(input_arr) == 1)
 		who(e, cs, user);
 	ft_arrdel(input_arr);
+	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/03 15:38:27 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/06 12:38:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 					printf("<\033[33m%s>\033[0m %s", server, e->concat_recv);
 			}
 			else
-				printf("\033[31m%s\033[0m %s", server, e->concat_recv);
+			{
+				if (e->cmd_who)
+					server = "";
+				printf("\033[31m%s\033[0m%s", server, e->concat_recv);
+				e->cmd_who = false;
+			}
 			memset(e->concat_recv, 0, BUF_SIZE);
 		}
 	}
@@ -61,7 +66,7 @@ void				client_read(t_env *e, int cs)
 	recv(cs, &user, sizeof(t_user), 0);
 	if (!strcmp(user.nickname, ""))
 	{
-		server = "==";
+		server = "== ";
 		clean_input(e);
 	}
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) < 0)
