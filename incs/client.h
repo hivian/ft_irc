@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/06 16:05:09 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 09:20:52 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <stdbool.h>
 
 # define BUF_SIZE	512
-# define NICK_SIZE	16
+# define NICK_SIZE	9
 # define CHAN_SIZE	50
 # define FD_FREE	0
 # define FD_SERV	1
@@ -38,8 +38,8 @@
 
 typedef struct		s_user
 {
-	char			channel[50];
-	char			nickname[16];
+	char			channel[CHAN_SIZE];
+	char			nickname[NICK_SIZE];
 	bool			whisper;
 }					t_user;
 
@@ -65,6 +65,7 @@ typedef struct		s_env
 	fd_set			fd_write;
 	FILE			*file;
 	char			strtime[26];
+	char			*rand_str;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
 	bool			cmd_who;
@@ -85,7 +86,7 @@ void				print_help(void);
 void				get_time(t_env *e);
 void				handle_signal(int sig);
 void				clean_input(t_env *e);
-int					gen_rand_nb(void);
+char				*gen_rand_nb(t_env *e);
 void				print_prompt(t_env *e);
 
 #endif
