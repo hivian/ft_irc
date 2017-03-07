@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 09:20:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 10:22:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct		s_env
 	fd_set			fd_write;
 	FILE			*file;
 	char			strtime[26];
-	char			*rand_str;
+	char			*id_to_str;
+	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
 	bool			cmd_who;
@@ -86,7 +87,6 @@ void				print_help(void);
 void				get_time(t_env *e);
 void				handle_signal(int sig);
 void				clean_input(t_env *e);
-char				*gen_rand_nb(t_env *e);
 void				print_prompt(t_env *e);
 
 #endif

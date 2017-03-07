@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 09:21:32 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 10:22:42 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@ void					get_time(t_env *e)
 	time(&timer);
 	tm_info = localtime(&timer);
 	strftime(e->strtime, 26, "%Y-%m-%d %H:%M:%S", tm_info);
-}
-
-char					*gen_rand_nb(t_env *e)
-{
-	srand(time(NULL));
-	e->rand_str = ft_itoa(rand() % 999);
-
-	return(e->rand_str);
 }
 
 void					print_prompt(t_env *e)

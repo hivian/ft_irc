@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 09:21:00 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 10:51:02 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void				create_client(t_env *e)
 {
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
-	char				concat[11];
+	char				concat[NICK_SIZE];
 
 	proto = getprotobyname("tcp");
 	if (!proto)
@@ -74,9 +74,11 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].type = FD_CLIENT;
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
+	recv(e->sock, &e->get_id, sizeof(e->get_id), O_CLOEXEC);
 	strcpy(e->fds[e->sock].user.channel, "#ft_irc-default");
 	strcpy(concat, "Guest");
-	strcat(concat, gen_rand_nb(e));
+	e->id_to_str = ft_itoa(e->get_id);
+	strcat(concat, e->id_to_str);
 	strcpy(e->fds[e->sock].user.nickname, concat);
 	send(e->sock, &e->fds[e->sock].user, sizeof(t_user), 0);
 }
@@ -98,6 +100,6 @@ int				main(int ac, char **av)
 	close(e.sock);
 	free(e.fds);
 	ft_strdel(&e.concat_recv);
-	ft_strdel(&e.rand_str);
+	ft_strdel(&e.id_to_str);
 	return (0);
 }
