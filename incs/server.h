@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 09:10:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 11:36:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void				change_nick(t_env *e, int cs, char **input_arr, t_user user);
 void				who(t_env *e, int cs, t_user user);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);
-void				send_to_chan(t_env *e, char *mess, int sock, t_user user);
+void				send_to_chan(t_env *e, char *mess, int sock, char *chan);
 void				clean_fd(int i, t_env *e);
 void				print_error(char *str);
 void				get_time(t_env *e);

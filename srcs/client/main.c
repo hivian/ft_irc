@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 10:51:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 12:06:28 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void				run_client(t_env *e)
 	int					ret;
 
 	printf("\033[1;30m- Connected to %s:%d\033[0m\n", e->addr, e->port);
-	printf("\033[1;30m- Joined %s\033[0m\n", e->fds[e->sock].user.channel);
 	printf("\033[1;30m- /help : list of commmands\033[0m\n");
+	//printf("\v\033[1;30m- Joined %s\033[0m\n", e->fds[e->sock].user.channel);
 	while (true)
 	{
 		print_prompt(e);

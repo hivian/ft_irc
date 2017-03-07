@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 11:16:40 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 12:24:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void				server_read(t_env *e, int cs)
 		get_time(e);
 		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
 		strcat(concat, " disconnected\n");
-		send_to_chan(e, concat, e->sock, user);
+		send_to_chan(e, concat, e->sock, user.channel);
 	}
 	else
 	{
@@ -44,7 +44,7 @@ static void				server_read(t_env *e, int cs)
 		if (e->fds[cs].buf_read[0] == '/')
 			run_cmd(e, cs, user);
 		else
-			send_to_chan(e, e->fds[cs].buf_read, cs, user);
+			send_to_chan(e, e->fds[cs].buf_read, cs, user.channel);
 	}
 }
 
@@ -53,6 +53,7 @@ void					srv_accept(t_env *e)
 	int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			cslen;
+	char				concat[NICK_SIZE + 9 + CHAN_SIZE];
 
 	cslen = sizeof(csin);
 	get_time(e);
@@ -60,11 +61,20 @@ void					srv_accept(t_env *e)
 		printf("\033[31m[%s]\033[0m Client connection failed", e->strtime);
 	send(cs, &cs, sizeof(cs), 0);
 	recv(cs, &e->fds[cs].user, sizeof(t_user), O_CLOEXEC);
-	printf("\033[31m[%s]\033[0m New client #%d from %s:%d\n", e->strtime, cs,
-		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
-	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
-	send(cs, "Welcome to this IRC server\n", 27, 0);
 	e->fds[cs].type = FD_CLIENT;
 	e->fds[cs].fct_read = server_read;
 	e->fds[cs].fct_write = server_write;
+	printf("\033[31m[%s]\033[0m New client #%d from %s:%d\n", e->strtime, cs,
+		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
+	printf("\033[31m[%s]\033[0m %s joined %s\n", e->strtime, \
+		e->fds[cs].user.nickname, e->fds[cs].user.channel);
+	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
+	send(cs, "Welcome to this IRC server\n", 27, 0);
+	/*memset(concat, 0, NICK_SIZE + 9 + CHAN_SIZE);
+	strcat(concat, e->fds[cs].user.nickname);
+	strcat(concat, " joined ");
+	strcat(concat, e->fds[cs].user.channel);
+	strcat(concat, "\n");
+	printf("CONCAT = %s", concat);
+	send_to_chan(e, concat, e->sock, e->fds[cs].user.channel);*/
 }

@@ -6,13 +6,13 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 11:11:32 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 11:36:05 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void			send_to_chan(t_env *e, char *message, int sock, t_user user)
+void			send_to_chan(t_env *e, char *message, int sock, char *chan)
 {
 	int			i;
 
@@ -20,7 +20,7 @@ void			send_to_chan(t_env *e, char *message, int sock, t_user user)
 	while (i <= e->max)
 	{
 		if (e->fds[i].type == FD_CLIENT && i != sock && \
-		!strcmp(e->fds[i].user.channel, user.channel))
+		!strcmp(e->fds[i].user.channel, chan))
 		{
 			send(i, &e->fds[sock].user, sizeof(t_user), 0);
 			send(i, message, strlen(message), 0);
