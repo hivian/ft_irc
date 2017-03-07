@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 15:18:49 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 16:53:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,30 @@ void		leave_chan(t_env *e, int cs, char **input_arr)
 		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
+}
 
+void		send_msg(t_env *e, int cs, char **input_arr)
+{
+	int		maxsize;
+	int		i;
+	char	*concat_msg;
+
+	i = 2;
+	maxsize = BUF_SIZE - 6 - NICK_SIZE;
+	printf("MAX SIZE = %d\n", maxsize);
+	while (input_arr[i])
+	{
+		concat_msg = ft_strjoin(concat_msg, input_arr[i]);
+		if (i != ft_arrlen(input_arr) - 1)
+			concat_msg = ft_strjoin(concat_msg, " ");
+		i++;
+	}
+	if (strlen(concat_msg) > maxsize)
+	{
+		memset(e->fds[cs].buf_write, 0, BUF_SIZE);
+		strncpy(e->fds[cs].buf_write, concat_msg, maxsize);
+		printf("\033[31mMessage too long\033[0m\n");
+	}
+	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
+	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 }

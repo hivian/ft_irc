@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 13:36:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 15:42:01 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int					run_cmd(t_env *e, int cs);
 void				change_nick(t_env *e, int cs, char **input_arr);
 void				join_chan(t_env *e, int cs, char **input_arr);
 void				leave_chan(t_env *e, int cs, char **input_arr);
+void				send_msg(t_env *e, int cs, char **input_arr);
 void				print_error(char *str);
 void				print_help(void);
 void				get_time(t_env *e);

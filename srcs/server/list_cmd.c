@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 15:19:19 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 15:31:48 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,6 @@ void			send_msg(t_env *e, char **input_arr, int cs)
 		send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
 		send(cs, tmp, strlen(tmp), 0);
 		send(cs, "\n", 1, 0);
-	}
-	else if (strlen(input_arr[2]) > BUF_SIZE)
-	{
-		send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
-		send(cs, "Message too long\n", 17, 0);
 	}
 	else
 	{
