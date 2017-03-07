@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 11:42:33 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 15:19:19 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,57 @@ void		who(t_env *e, int cs, t_user user)
 void			join_chan(t_env *e, int cs, char **input_arr, t_user user)
 {
 	char		concat[CHAN_SIZE + 9];
+	char		tmp[CHAN_SIZE];
 
+	memset(tmp, 0, CHAN_SIZE);
 	memset(concat, 0, CHAN_SIZE + 9);
-	if (input_arr[1][0] == '#'  && strlen(input_arr[1]) > 3 \
-	&& strlen(input_arr[1]) <= CHAN_SIZE)
-	{
-		strcat(concat, e->fds[cs].user.nickname);
-		strcat(concat, " leaved ");
-		strcat(concat, e->fds[cs].user.channel);
-		strcat(concat, "\n");
-		send_to_chan(e, concat, e->sock, e->fds[cs].user.channel);
-		memset(concat, 0, CHAN_SIZE + 9);
-		memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
-		strcpy(e->fds[cs].user.channel, user.channel);
-		strcat(concat, e->fds[cs].user.nickname);
-		strcat(concat, " joined ");
-		strcat(concat, e->fds[cs].user.channel);
-		strcat(concat, "\n");
-		send_to_chan(e, concat, e->sock, user.channel);
-	}
+	get_time(e);
+	strcat(concat, e->fds[cs].user.nickname);
+	strcat(concat, " leaved ");
+	strcat(concat, e->fds[cs].user.channel);
+	strcat(concat, "\n");
+	strcpy(tmp, e->fds[cs].user.channel);
+	memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
+	strcpy(e->fds[cs].user.channel, user.channel);
+	send_to_chan(e, concat, e->sock, tmp);
+	memset(concat, 0, CHAN_SIZE + 9);
+	strcat(concat, e->fds[cs].user.nickname);
+	strcat(concat, " joined ");
+	strcat(concat, e->fds[cs].user.channel);
+	strcat(concat, "\n");
+	send_to_chan(e, concat, e->sock, user.channel);
+	printf("\033[31m[%s]\033[0m %s leaved %s\n", \
+		e->strtime, e->fds[cs].user.nickname, tmp);
+	printf("\033[31m[%s]\033[0m %s joined %s\n", \
+		e->strtime, e->fds[cs].user.nickname, e->fds[cs].user.channel);
+}
+
+void			leave_chan(t_env *e, int cs, char **input_arr, t_user user)
+{
+	char		concat[CHAN_SIZE + 9];
+	char		tmp[CHAN_SIZE];
+
+	memset(tmp, 0, CHAN_SIZE);
+	memset(concat, 0, CHAN_SIZE + 9);
+	get_time(e);
+	strcat(concat, e->fds[cs].user.nickname);
+	strcat(concat, " leaved ");
+	strcat(concat, e->fds[cs].user.channel);
+	strcat(concat, "\n");
+	strcpy(tmp, e->fds[cs].user.channel);
+	memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
+	strcpy(e->fds[cs].user.channel, user.channel);
+	send_to_chan(e, concat, e->sock, tmp);
+	memset(concat, 0, CHAN_SIZE + 9);
+	strcat(concat, e->fds[cs].user.nickname);
+	strcat(concat, " joined ");
+	strcat(concat, CHAN_GEN);
+	strcat(concat, "\n");
+	send_to_chan(e, concat, e->sock, user.channel);
+	printf("\033[31m[%s]\033[0m %s leaved %s\n", \
+		e->strtime, e->fds[cs].user.nickname, tmp);
+	printf("\033[31m[%s]\033[0m %s joined %s\n", \
+		e->strtime, e->fds[cs].user.nickname, e->fds[cs].user.channel);
 }
 
 void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
@@ -63,25 +95,21 @@ void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
 
 	memset(concat, 0, NICK_SIZE * 2 + 22);
 	memset(tmp, 0, NICK_SIZE);
-	if (input_arr[1][0] != '#' && strlen(input_arr[1]) <= NICK_SIZE && \
-	strcmp(ft_strtrim(input_arr[1]), ""))
+	if (duplicate_user(e, cs, user.nickname))
 	{
-		if (duplicate_user(e, cs, user.nickname))
-		{
-			send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
-			send(cs, "Nickname is already in use\n", 27, 0);
-		}
-		else
-		{
-			strcpy(tmp, e->fds[cs].user.nickname);
-			memset(e->fds[cs].user.nickname, 0, NICK_SIZE);
-			strcpy(e->fds[cs].user.nickname, user.nickname);
-			strcat(concat, tmp);
-			strcat(concat, " has changed nick to ");
-			strcat(concat, e->fds[cs].user.nickname);
-			strcat(concat, "\n");
-			send_to_chan(e, concat, e->sock, user.channel);
-		}
+		send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
+		send(cs, "Nickname is already in use\n", 27, 0);
+	}
+	else
+	{
+		strcpy(tmp, e->fds[cs].user.nickname);
+		memset(e->fds[cs].user.nickname, 0, NICK_SIZE);
+		strcpy(e->fds[cs].user.nickname, user.nickname);
+		strcat(concat, tmp);
+		strcat(concat, " has changed nick to ");
+		strcat(concat, e->fds[cs].user.nickname);
+		strcat(concat, "\n");
+		send_to_chan(e, concat, e->sock, user.channel);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 12:06:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 13:31:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
 	recv(e->sock, &e->get_id, sizeof(e->get_id), O_CLOEXEC);
-	strcpy(e->fds[e->sock].user.channel, "#ft_irc-default");
+	strcpy(e->fds[e->sock].user.channel, CHAN_GEN);
 	strcpy(concat, "Guest");
 	e->id_to_str = ft_itoa(e->get_id);
 	strcat(concat, e->id_to_str);

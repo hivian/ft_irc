@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 10:22:49 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 13:36:46 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define BUF_SIZE	512
 # define NICK_SIZE	9
 # define CHAN_SIZE	50
+# define CHAN_GEN	"#ft_irc-default"
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
@@ -82,6 +83,7 @@ void				client_read(t_env *e, int cs);
 int					run_cmd(t_env *e, int cs);
 void				change_nick(t_env *e, int cs, char **input_arr);
 void				join_chan(t_env *e, int cs, char **input_arr);
+void				leave_chan(t_env *e, int cs, char **input_arr);
 void				print_error(char *str);
 void				print_help(void);
 void				get_time(t_env *e);

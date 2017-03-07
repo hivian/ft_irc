@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 12:24:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 13:10:36 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,11 @@ void					srv_accept(t_env *e)
 		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	printf("\033[31m[%s]\033[0m %s joined %s\n", e->strtime, \
 		e->fds[cs].user.nickname, e->fds[cs].user.channel);
-	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
-	send(cs, "Welcome to this IRC server\n", 27, 0);
-	/*memset(concat, 0, NICK_SIZE + 9 + CHAN_SIZE);
+	memset(concat, 0, NICK_SIZE + 9 + CHAN_SIZE);
 	strcat(concat, e->fds[cs].user.nickname);
 	strcat(concat, " joined ");
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");
-	printf("CONCAT = %s", concat);
-	send_to_chan(e, concat, e->sock, e->fds[cs].user.channel);*/
+	e->max++;
+	send_to_chan(e, concat, e->sock, e->fds[cs].user.channel);
 }

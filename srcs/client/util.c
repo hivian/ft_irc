@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 10:22:42 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/07 15:26:13 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void					clean_input(t_env *e)
 	ft_putstr(tmp);
 	memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
 	memset(tmp, '\b', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
-	if (e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write) - 1] != '\n')
-		ft_putstr("  \b\b");
+	//if (e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write) - 1] != '\n')
+	//	ft_putstr("  \b\b");
 	ft_putstr(tmp);
 	memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
 }
