@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 17:22:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 10:35:37 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void					get_time(t_env *e)
 
 void					print_prompt(t_env *e)
 {
-	// A test
 	ft_putstr("\033[36m");
 	ft_putstr(e->fds[e->sock].user.nickname);
 	ft_putstr(" $> ");
@@ -39,20 +38,17 @@ void					print_prompt(t_env *e)
 
 void					clean_input(t_env *e)
 {
-	char				tmp[BUF_SIZE + 4 + NICK_SIZE];
+	char				tmp[BUF_SIZE + 4];
 
-	memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
-	memset(tmp, '\b', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
+	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, '\b', NICK_SIZE + 4);
 	ft_putstr(tmp);
-	memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
-	memset(tmp, ' ', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
+	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, ' ', NICK_SIZE + 4);
 	ft_putstr(tmp);
-	memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
-	memset(tmp, '\b', NICK_SIZE + 4 + strlen(e->fds[e->sock].buf_write));
-	//if (e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write) - 1] != '\n')
-	//	ft_putstr("  \b\b");
+	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, '\b', NICK_SIZE + 4);
 	ft_putstr(tmp);
-	//memset(tmp, 0, BUF_SIZE + 4 + NICK_SIZE);
 }
 
 void			handle_signal(int sig)

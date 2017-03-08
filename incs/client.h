@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 15:42:01 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 09:58:12 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ typedef struct		s_env
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
-	bool			cmd_who;
 	char			*concat_recv;
+	bool			cmd_who;
 }					t_env;
 
 void				init_fd(t_env *e);
