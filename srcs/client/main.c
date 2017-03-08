@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 15:05:38 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 16:13:54 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ static void		get_localhost(t_env *e)
 		if ((res = sscanf(buf, "%s %s", e->addr, tmp)) > 0 && \
 		!strcmp(tmp, "localhost"))
 		{
-			free(tmp);
+			ft_strdel(&tmp);
+			ft_strdel(&buf);
 			return ;
 		}
+		ft_strdel(&tmp);
+		ft_strdel(&e->addr);
+		ft_strdel(&buf);
 	}
-	free(tmp);
-	free(e->addr);
 	print_error("localhost not found");
 }
 

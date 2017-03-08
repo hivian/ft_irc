@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/19 12:25:56 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/01 16:47:21 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 16:25:04 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		ft_arrdel(char **array)
 	i = 0;
 	while (array[i])
 	{
-		free(array[i]);
+		ft_strdel(&array[i]);
 		i++;
 	}
 	free(array);

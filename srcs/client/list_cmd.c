@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 15:53:21 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 16:49:52 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		change_nick(t_env *e, int cs, char **input_arr)
 {
 	if (strlen(input_arr[1]) > NICK_SIZE)
 		printf("\033[31mNickname too long\033[0m\n");
-	else if (input_arr[1][0] == '#' || !strcmp(ft_strtrim(input_arr[1]), ""))
+	else if (input_arr[1][0] == '#' || input_arr[1][0] == '\n')
 		printf("\033[31mNickname incorrect\033[0m\n");
 	else
 	{
@@ -50,15 +50,18 @@ void		join_chan(t_env *e, int cs, char **input_arr)
 
 void		leave_chan(t_env *e, int cs, char **input_arr)
 {
+	char	*trim;
+
+	trim = ft_strtrim(input_arr[1]);
 	if (strlen(input_arr[1]) > CHAN_SIZE)
 		printf("\033[31mChannel name too long\033[0m\n");
 	else if (input_arr[1][0] != '#')
 		printf("\033[31mChannel must begin with #\033[0m\n");
 	else if (strlen(input_arr[1]) < 4)
 		printf("\033[31mChannel name too short\033[0m\n");
-	else if (!strcmp(ft_strtrim(input_arr[1]), CHAN_GEN))
+	else if (!strcmp(trim, CHAN_GEN))
 		printf("\033[31mYou can't leave %s\033[0m\n", CHAN_GEN);
-	else if (strcmp(ft_strtrim(input_arr[1]), e->fds[cs].user.channel))
+	else if (strcmp(trim, e->fds[cs].user.channel))
 		printf("\033[31mYour channel is %s\033[0m\n", e->fds[cs].user.channel);
 	else
 	{
@@ -67,6 +70,7 @@ void		leave_chan(t_env *e, int cs, char **input_arr)
 		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
+	ft_strdel(&trim);
 }
 
 void		send_msg(t_env *e, int cs, char **input_arr)
