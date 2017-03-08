@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 10:00:00 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 11:55:44 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,23 @@ static void				create_client(t_env *e)
 
 int				main(int ac, char **av)
 {
-	t_env		e;
+	t_env		*e;
 
+	e = (t_env *)malloc(sizeof(t_env));
 	if (ac != 3)
 		print_error(USAGE);
 	if (!strcmp(av[1], "localhost"))
-		get_localhost(&e);
+		get_localhost(e);
 	else
-		e.addr = av[1];
-	e.port = atoi(av[2]);
-	init_env(&e);
-	create_client(&e);
-	run_client(&e);
-	close(e.sock);
-	free(e.fds);
-	ft_strdel(&e.concat_recv);
-	ft_strdel(&e.id_to_str);
+		e->addr = av[1];
+	e->port = atoi(av[2]);
+	init_env(e);
+	create_client(e);
+	run_client(e);
+	close(e->sock);
+	free(e->fds);
+	ft_strdel(&e->concat_recv);
+	ft_strdel(&e->id_to_str);
+	free(e);
 	return (0);
 }
