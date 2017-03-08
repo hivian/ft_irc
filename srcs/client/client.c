@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 10:00:26 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 12:25:57 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 {
 	if (strcmp(ft_strtrim(e->fds[cs].buf_read), ""))
 	{
+		//printf("A = %s\n", e->concat_recv);
 		e->concat_recv = ft_strjoin(e->concat_recv, e->fds[cs].buf_read);
-		//printf("%s\n", e->concat_recv);
+		//printf("B = %s\n", e->concat_recv);
 		clean_input(e);
 		if (e->fds[cs].buf_read[strlen(e->fds[cs].buf_read) - 1] == '\n')
 		{
@@ -49,6 +50,8 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 				e->cmd_who = false;
 			}
 			ft_strdel(&e->concat_recv);
+			//free(e->concat_recv);
+			memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 		}
 	}
 }

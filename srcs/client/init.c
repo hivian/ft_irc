@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 17:19:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 12:18:37 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void				init_env(t_env *e)
 {
 	if (!(e->fds = (t_fd*)malloc(sizeof(*e->fds))))
 		print_error("malloc: failed");
+	e->concat_recv = NULL;
 	clean_fd(e->sock, e);
 }
 

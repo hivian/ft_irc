@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 16:53:58 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 12:23:50 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,11 @@ void		send_msg(t_env *e, int cs, char **input_arr)
 	i = 2;
 	maxsize = BUF_SIZE - 6 - NICK_SIZE;
 	printf("MAX SIZE = %d\n", maxsize);
+	concat_msg = NULL;
 	while (input_arr[i])
 	{
+		//printf("A = %s\n", concat_msg);
+		//printf("B = %s\n", input_arr[i]);
 		concat_msg = ft_strjoin(concat_msg, input_arr[i]);
 		if (i != ft_arrlen(input_arr) - 1)
 			concat_msg = ft_strjoin(concat_msg, " ");
@@ -89,6 +92,7 @@ void		send_msg(t_env *e, int cs, char **input_arr)
 	{
 		memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 		strncpy(e->fds[cs].buf_write, concat_msg, maxsize);
+		e->fds[cs].buf_write[strlen(e->fds[cs].buf_write)] = '\n';
 		printf("\033[31mMessage too long\033[0m\n");
 	}
 	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
