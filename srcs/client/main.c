@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 11:55:44 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 15:05:38 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int				main(int ac, char **av)
 	run_client(e);
 	close(e->sock);
 	free(e->fds);
-	ft_strdel(&e->concat_recv);
 	ft_strdel(&e->id_to_str);
 	free(e);
 	return (0);

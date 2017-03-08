@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 12:25:57 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/08 15:50:17 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void				client_write(t_env *e, int cs)
 {
 	if (e->fds[cs].buf_write[0] == '/')
 		run_cmd(e, cs);
-	else
+	else if (e->fds[cs].buf_write[0] != '\n')
 	{
 		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
@@ -26,32 +26,23 @@ void				client_write(t_env *e, int cs)
 
 static void			print_recv(t_env *e, int cs, char *server, t_user user)
 {
-	if (strcmp(ft_strtrim(e->fds[cs].buf_read), ""))
+	clean_input(e);
+	if (e->fds[cs].buf_read[strlen(e->fds[cs].buf_read) - 1] == '\n')
 	{
-		//printf("A = %s\n", e->concat_recv);
-		e->concat_recv = ft_strjoin(e->concat_recv, e->fds[cs].buf_read);
-		//printf("B = %s\n", e->concat_recv);
-		clean_input(e);
-		if (e->fds[cs].buf_read[strlen(e->fds[cs].buf_read) - 1] == '\n')
+		if (!server)
 		{
-			if (!server)
-			{
-				server = user.nickname;
-				if (user.whisper)
-					printf("*\033[33m%s*\033[0m %s", server, e->concat_recv);
-				else
-					printf("<\033[33m%s>\033[0m %s", server, e->concat_recv);
-			}
+			server = user.nickname;
+			if (user.whisper)
+				printf("*\033[33m%s*\033[0m %s", server, e->fds[cs].buf_read);
 			else
-			{
-				if (e->cmd_who)
-					server = "";
-				printf("\033[31m%s\033[0m%s", server, e->concat_recv);
-				e->cmd_who = false;
-			}
-			ft_strdel(&e->concat_recv);
-			//free(e->concat_recv);
-			memset(e->fds[cs].buf_read, 0, BUF_SIZE);
+				printf("<\033[33m%s>\033[0m %s", server, e->fds[cs].buf_read);
+		}
+		else
+		{
+			if (e->cmd_who)
+				server = "";
+			printf("\033[31m%s\033[0m%s", server, e->fds[cs].buf_read);
+			e->cmd_who = false;
 		}
 	}
 }
@@ -67,7 +58,7 @@ void				client_read(t_env *e, int cs)
 	recv(cs, &user, sizeof(t_user), 0);
 	if (!strcmp(user.nickname, ""))
 		server = "== ";
-	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) < 0)
+	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, O_CLOEXEC)) < 0)
 	{
 		close(cs);
 		clean_fd(cs, e);
