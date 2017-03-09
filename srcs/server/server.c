@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:12:55 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 16:27:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void				server_read(t_env *e, int cs)
 	recv(cs, &user, sizeof(t_user), 0);
 	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
-		strcat(concat, e->fds[cs].user.nickname);
+		strcpy(concat, e->fds[cs].user.nickname);
 		strcpy(user.channel, e->fds[cs].user.channel);
 		clean_fd(cs, e);
 		close(cs);
@@ -68,7 +68,7 @@ void					srv_accept(t_env *e)
 	printf("\033[31m[%s]\033[0m %s joined %s\n", e->strtime, \
 		e->fds[cs].user.nickname, e->fds[cs].user.channel);
 	memset(concat, 0, NICK_SIZE + 9 + CHAN_SIZE);
-	strcat(concat, e->fds[cs].user.nickname);
+	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " joined ");
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");

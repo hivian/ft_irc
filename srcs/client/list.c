@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 13:30:16 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 15:28:01 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 16:43:01 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,16 @@ void			print_list(t_slist *list)
 	t_node		*tmp;
 
 	tmp = list->head;
-	while (tmp)
+	if (tmp == NULL)
+		printf("\033[31mIgnore list is empty.\033[0m\n");
+	else
 	{
-		ft_putstr(tmp->nickname);
-		ft_putendl("");
-		tmp = tmp->next;
+		printf("Ignore list:\n");
+		while (tmp)
+		{
+			printf("- %s\n", tmp->nickname);
+			tmp = tmp->next;
+		}
 	}
 }
 

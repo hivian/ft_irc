@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:20:05 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 16:27:42 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 void			who(t_env *e, int cs, t_user user)
 {
 	int			i;
+	char		concat[2 + NICK_SIZE + 1];
 
 	i = 0;
+	memset(concat, 0, 2 + NICK_SIZE + 1);
 	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
 	while (i <= e->max)
 	{
 		if (e->fds[i].type == FD_CLIENT && \
 		!strcmp(e->fds[i].user.channel, user.channel))
 		{
-			send(cs, "> ", 2, 0);
-			send(cs, e->fds[i].user.nickname, \
-				strlen(e->fds[i].user.nickname), 0);
-			send(cs, "\n", 1, 0);
+			strcpy(concat, "> ");
+			strcat(concat, e->fds[i].user.nickname);
+			strcat(concat, "\n");
+			send(cs, concat, strlen(concat), 0);
 		}
 		i++;
 	}
@@ -40,7 +42,7 @@ void			join_chan(t_env *e, int cs, char **input_arr, t_user user)
 	memset(tmp, 0, CHAN_SIZE);
 	memset(concat, 0, CHAN_SIZE + 9);
 	get_time(e);
-	strcat(concat, e->fds[cs].user.nickname);
+	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " leaved ");
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");
@@ -49,7 +51,7 @@ void			join_chan(t_env *e, int cs, char **input_arr, t_user user)
 	strcpy(e->fds[cs].user.channel, user.channel);
 	send_to_chan(e, concat, e->sock, tmp);
 	memset(concat, 0, CHAN_SIZE + 9);
-	strcat(concat, e->fds[cs].user.nickname);
+	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " joined ");
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");
@@ -68,7 +70,7 @@ void			leave_chan(t_env *e, int cs, char **input_arr, t_user user)
 	memset(tmp, 0, CHAN_SIZE);
 	memset(concat, 0, CHAN_SIZE + 9);
 	get_time(e);
-	strcat(concat, e->fds[cs].user.nickname);
+	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " leaved ");
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");
@@ -77,7 +79,7 @@ void			leave_chan(t_env *e, int cs, char **input_arr, t_user user)
 	strcpy(e->fds[cs].user.channel, user.channel);
 	send_to_chan(e, concat, e->sock, tmp);
 	memset(concat, 0, CHAN_SIZE + 9);
-	strcat(concat, e->fds[cs].user.nickname);
+	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " joined ");
 	strcat(concat, CHAN_GEN);
 	strcat(concat, "\n");
