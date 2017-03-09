@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 16:49:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 08:58:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,29 @@ void		send_msg(t_env *e, int cs, char **input_arr)
 	int		maxsize;
 	int		i;
 	char	*concat_msg;
+	char	*tmp;
 
 	i = 0;
 	maxsize = BUF_SIZE - 6 - NICK_SIZE;
 	concat_msg = NULL;
 	while (input_arr[i])
 	{
-		concat_msg = ft_strjoin(concat_msg, input_arr[i]);
+		tmp = concat_msg;
+		concat_msg = ft_strjoin(tmp, input_arr[i]);
+		ft_strdel(&tmp);
 		if (i != ft_arrlen(input_arr) - 1)
-			concat_msg = ft_strjoin(concat_msg, " ");
+		{
+			tmp = concat_msg;
+			concat_msg = ft_strjoin(tmp, " ");
+			ft_strdel(&tmp);
+		}
 		i++;
 	}
 	if (strlen(concat_msg) > maxsize)
 	{
 		memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 		strncpy(e->fds[cs].buf_write, concat_msg, maxsize);
+		e->fds[cs].buf_write[strlen(e->fds[cs].buf_write)] = '\n';
 	}
 	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
