@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 14:56:48 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:05:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ static void				create_server(t_env *e)
 		print_error("Bind error");
 	listen(e->sock, 42);
 	e->fds[e->sock].type = FD_SERV;
-    e->fds[e->sock].fct_read = srv_accept;
+	e->fds[e->sock].fct_read = srv_accept;
 	memset(e->fds[e->sock].user.channel, 0, 50);
 	memset(e->fds[e->sock].user.nickname, 0, 16);
 	e->fds[e->sock].user.whisper = false;
 }
 
-int				main(int ac, char **av)
+int						main(int ac, char **av)
 {
-	t_env		e;
+	t_env				e;
 
 	if (ac != 2)
 		print_error(USAGE);

@@ -6,15 +6,15 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 13:51:45 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:20:05 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void		who(t_env *e, int cs, t_user user)
+void			who(t_env *e, int cs, t_user user)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
@@ -139,6 +139,5 @@ void			send_msg(t_env *e, char **input_arr, int cs)
 			send(fd_dest, input_arr[i], strlen(input_arr[i]), 0);
 			i++;
 		}
-		e->fds[cs].user.whisper = false;
 	}
 }

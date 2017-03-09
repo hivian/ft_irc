@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 10:35:37 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:34:19 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,23 @@ void					clean_input(t_env *e)
 	ft_putstr(tmp);
 }
 
-void			handle_signal(int sig)
+void					concat_arr(char **concat_msg, char **input_arr)
 {
-	(void)sig;
-	printf("ENTER\n");
+	int					i;
+	char				*tmp;
+
+	i = 0;
+	while (input_arr[i])
+	{
+		tmp = *concat_msg;
+		*concat_msg = ft_strjoin(tmp, input_arr[i]);
+		ft_strdel(&tmp);
+		if (i != ft_arrlen(input_arr) - 1)
+		{
+			tmp = *concat_msg;
+			*concat_msg = ft_strjoin(tmp, " ");
+			ft_strdel(&tmp);
+		}
+		i++;
+	}
 }

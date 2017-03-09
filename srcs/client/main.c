@@ -6,18 +6,18 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:52 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 16:13:54 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:14:41 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void		get_localhost(t_env *e)
+static void				get_localhost(t_env *e)
 {
-	char		*buf;
-	char		*tmp;
-	size_t		size;
-	int			res;
+	char				*buf;
+	char				*tmp;
+	size_t				size;
+	int					res;
 
 	buf = NULL;
 	size = 0;
@@ -43,8 +43,6 @@ static void		get_localhost(t_env *e)
 
 static void				run_client(t_env *e)
 {
-	int					ret;
-
 	printf("\033[1;30m- Connected to %s:%d\033[0m\n", e->addr, e->port);
 	printf("\033[1;30m- /help : list of commmands\033[0m\n");
 	while (true)
@@ -84,9 +82,9 @@ static void				create_client(t_env *e)
 	send(e->sock, &e->fds[e->sock].user, sizeof(t_user), 0);
 }
 
-int				main(int ac, char **av)
+int						main(int ac, char **av)
 {
-	t_env		*e;
+	t_env				*e;
 
 	e = (t_env *)malloc(sizeof(t_env));
 	if (ac != 3)

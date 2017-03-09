@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/07 13:55:41 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:17:46 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ typedef struct		s_user
 typedef struct		s_fd
 {
 	int				type;
- 	void			(*fct_read)();
+	void			(*fct_read)();
 	void			(*fct_write)();
- 	char			buf_read[BUF_SIZE + 1];
+	char			buf_read[BUF_SIZE + 1];
 	char			buf_write[BUF_SIZE + 1];
 	t_user			user;
 }					t_fd;
@@ -63,6 +63,7 @@ typedef struct		s_env
 	int				maxfd;
 	int				max;
 	int				ret;
+	int				ret_recv;
 	fd_set			fd_read;
 	fd_set			fd_write;
 	char			strtime[DATE_SIZE];
@@ -74,9 +75,9 @@ void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
 int					run_cmd(t_env *e, int cs, t_user user);
 void				send_msg(t_env *e, char **input_arr, int cs);
-void				join_chan(t_env *e, int cs, char **input_arr, t_user user);
-void				leave_chan(t_env *e, int cs, char **input_arr, t_user user);
-void				change_nick(t_env *e, int cs, char **input_arr, t_user user);
+void				join_chan(t_env *e, int cs, char **inp_arr, t_user user);
+void				leave_chan(t_env *e, int cs, char **inp_arr, t_user user);
+void				change_nick(t_env *e, int cs, char **inp_arr, t_user user);
 void				who(t_env *e, int cs, t_user user);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);

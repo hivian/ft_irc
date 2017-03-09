@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 14:11:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:34:31 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ typedef struct		s_user
 typedef struct		s_fd
 {
 	int				type;
- 	void			(*fct_read)();
+	void			(*fct_read)();
 	void			(*fct_write)();
- 	char			buf_read[BUF_SIZE];
+	char			buf_read[BUF_SIZE];
 	char			buf_write[BUF_SIZE];
 	t_user			user;
 }					t_fd;
@@ -85,10 +85,10 @@ void				change_nick(t_env *e, int cs, char **input_arr);
 void				join_chan(t_env *e, int cs, char **input_arr);
 void				leave_chan(t_env *e, int cs, char **input_arr);
 void				send_msg(t_env *e, int cs, char **input_arr);
+void				concat_arr(char **concat_msg, char **input_arr);
 void				print_error(char *str);
 void				print_help(void);
 void				get_time(t_env *e);
-void				handle_signal(int sig);
 void				clean_input(t_env *e);
 void				print_prompt(t_env *e);
 
