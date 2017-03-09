@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 10:59:36 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 13:47:47 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void					connect_to_server(int count_arg, char **args)
 	t_env				*e;
 
 	e = (t_env *)malloc(sizeof(t_env));
+	e->list = create_list();
 	if (count_arg != 3)
 		print_error(USAGE);
 	if (!strcmp(args[1], "localhost"))

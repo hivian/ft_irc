@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 12:11:38 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 15:59:27 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 	{
 		if (!server)
 		{
-			if (!strcmp(user.nickname, e->nick_ignored))
+			if (is_ignored(e->list, user.nickname))
 				return ;
 			server = user.nickname;
 			if (user.whisper)
@@ -49,6 +49,7 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 			printf("\033[31m%s\033[0m%s", server, e->fds[cs].buf_read);
 			e->cmd_who = false;
 		}
+		memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 	}
 }
 
@@ -63,7 +64,7 @@ void				client_read(t_env *e, int cs)
 	recv(cs, &user, sizeof(t_user), 0);
 	if (!strcmp(user.nickname, ""))
 		server = "== ";
-	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, O_CLOEXEC)) < 0)
+	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) < 0)
 	{
 		close(cs);
 		clean_fd(cs, e);

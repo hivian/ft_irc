@@ -19,6 +19,8 @@ SRC_C		= $(SRC)client/main.c \
 			  $(SRC)client/cmd.c \
 			  $(SRC)client/list_cmd.c \
 			  $(SRC)client/util.c \
+			  $(SRC)client/list.c \
+			  $(SRC)client/list2.c \
 
 OBJ_S  		= $(SRC_S:%.c=%.o)
 OBJ_C		= $(SRC_C:%.c=%.o)

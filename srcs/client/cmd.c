@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 12:27:34 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 15:55:21 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,45 @@ static void		print_help(void)
 
 static void		ignore_nick(t_env *e, int cs, char **input_arr)
 {
+	char		nick_ignored[NICK_SIZE];
+	char		*str;
+
+	str = "to unignore type: /UNIGNORE";
+	memset(nick_ignored, 0, NICK_SIZE);
 	if (input_arr[1][0] == '\n')
 		printf("\033[31mNickname incorrect\033[0m\n");
 	else
 	{
-		strncpy(e->nick_ignored, input_arr[1], strlen(input_arr[1]) - 1);
-		printf("\033[31mIgnored %s, to unignore type: /UNIGNORE %s\033[0m\n", \
-			e->nick_ignored, e->nick_ignored);
+		strncpy(nick_ignored, input_arr[1], strlen(input_arr[1]) - 1);
+		if (!is_ignored(e->list, nick_ignored))
+		{
+			list_push_back(e->list, nick_ignored);
+			printf("\033[31mIgnored %s, %s %s\033[0m\n", \
+				nick_ignored, str, nick_ignored);
+		}
 	}
 }
 
 static void		unignore_nick(t_env *e, int cs, char **input_arr)
 {
-	char		tmp[BUF_SIZE];
+	char		nick_ignored[NICK_SIZE];
 
-	memset(tmp, 0, BUF_SIZE);
-	strncpy(tmp, input_arr[1], strlen(input_arr[1]) - 1);
+	memset(nick_ignored, 0, NICK_SIZE);
+	strncpy(nick_ignored, input_arr[1], strlen(input_arr[1]) - 1);
 	if (input_arr[1][0] == '\n')
 		printf("\033[31mNickname incorrect\033[0m\n");
 	else
 	{
-		memset(e->nick_ignored, 0, NICK_SIZE);
-		printf("\033[31mUnignored %s\033[0m\n", tmp);
+		del_node(e->list, nick_ignored);
+		printf("\033[31mUnignored %s\033[0m\n", nick_ignored);
 	}
+}
+
+static void		who_in_chan(t_env *e, int cs)
+{
+	e->cmd_who = true;
+	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
+	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 }
 
 void			run_cmd(t_env *e, int cs)
@@ -74,13 +90,8 @@ void			run_cmd(t_env *e, int cs)
 	else if (!strcmp(input_arr[0], "/unignore") && ft_arrlen(input_arr) == 2)
 		unignore_nick(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/who\n") && ft_arrlen(input_arr) == 1)
-	{
-		e->cmd_who = true;
-		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
-		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
-	}
+		who_in_chan(e, cs);
 	else
 		printf("\033[31mUnknow command\033[0m\n");
 	ft_arrdel(input_arr);
-	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 }

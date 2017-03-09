@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 11:50:55 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 14:23:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage: ./client <machine> <port>"
 
+typedef struct		s_node
+{
+	char			*nickname;
+	struct s_node	*next;
+}					t_node;
+
+typedef struct		s_slist
+{
+	t_node			*head;
+}					t_slist;
+
 typedef struct		s_user
 {
 	char			channel[CHAN_SIZE];
@@ -62,6 +73,7 @@ typedef struct		s_env
 	int				sock;
 	char			*addr;
 	int				ret;
+	bool			cmd_who;
 	fd_set			fd_read;
 	fd_set			fd_write;
 	FILE			*file;
@@ -70,9 +82,8 @@ typedef struct		s_env
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
-	char			nick_ignored[NICK_SIZE];
-	bool			cmd_who;
 	char			concat_recv[BUF_SIZE];
+	t_slist			*list;
 }					t_env;
 
 void				init_fd(t_env *e);
@@ -93,5 +104,12 @@ void				print_error(char *str);
 void				get_time(t_env *e);
 void				clean_input(t_env *e);
 void				print_prompt(t_env *e);
+
+t_slist				*create_list(void);
+void				clear_list(t_slist *list);
+void				print_list(t_slist *list);
+void				list_push_back(t_slist *list, char *data);
+void				del_node(t_slist *list, char *data);
+int					is_ignored(t_slist *list, char *data);
 
 #endif
