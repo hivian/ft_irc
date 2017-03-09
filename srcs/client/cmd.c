@@ -6,13 +6,13 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:48:20 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 12:27:34 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-void			print_help(void)
+static void		print_help(void)
 {
 	printf("===================== - List of commands - ====================\n");
 	printf("#                                                             #\n");
@@ -25,15 +25,41 @@ void			print_help(void)
 	printf("===============================================================\n");
 }
 
-int				run_cmd(t_env *e, int cs)
+static void		ignore_nick(t_env *e, int cs, char **input_arr)
+{
+	if (input_arr[1][0] == '\n')
+		printf("\033[31mNickname incorrect\033[0m\n");
+	else
+	{
+		strncpy(e->nick_ignored, input_arr[1], strlen(input_arr[1]) - 1);
+		printf("\033[31mIgnored %s, to unignore type: /UNIGNORE %s\033[0m\n", \
+			e->nick_ignored, e->nick_ignored);
+	}
+}
+
+static void		unignore_nick(t_env *e, int cs, char **input_arr)
+{
+	char		tmp[BUF_SIZE];
+
+	memset(tmp, 0, BUF_SIZE);
+	strncpy(tmp, input_arr[1], strlen(input_arr[1]) - 1);
+	if (input_arr[1][0] == '\n')
+		printf("\033[31mNickname incorrect\033[0m\n");
+	else
+	{
+		memset(e->nick_ignored, 0, NICK_SIZE);
+		printf("\033[31mUnignored %s\033[0m\n", tmp);
+	}
+}
+
+void			run_cmd(t_env *e, int cs)
 {
 	char		**input_arr;
 
-	clean_input(e);
 	input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
 	if (!strcmp(input_arr[0], "/nick") && ft_arrlen(input_arr) == 2)
 		change_nick(e, cs, input_arr);
-	if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
+	else if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
 		connect_to(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
 		join_chan(e, cs, input_arr);
@@ -43,6 +69,10 @@ int				run_cmd(t_env *e, int cs)
 		print_help();
 	else if (!strcmp(input_arr[0], "/msg") && ft_arrlen(input_arr) > 2)
 		send_msg(e, cs, input_arr);
+	else if (!strcmp(input_arr[0], "/ignore") && ft_arrlen(input_arr) == 2)
+		ignore_nick(e, cs, input_arr);
+	else if (!strcmp(input_arr[0], "/unignore") && ft_arrlen(input_arr) == 2)
+		unignore_nick(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/who\n") && ft_arrlen(input_arr) == 1)
 	{
 		e->cmd_who = true;
@@ -53,5 +83,4 @@ int				run_cmd(t_env *e, int cs)
 		printf("\033[31mUnknow command\033[0m\n");
 	ft_arrdel(input_arr);
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
-	return (0);
 }

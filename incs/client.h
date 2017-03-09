@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:52:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 11:50:55 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct		s_env
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
+	char			nick_ignored[NICK_SIZE];
 	bool			cmd_who;
 	char			concat_recv[BUF_SIZE];
 }					t_env;
@@ -81,7 +82,7 @@ void				clean_fd(int i, t_env *e);
 void				client_write(t_env *e, int cs);
 void				client_read(t_env *e, int cs);
 void				connect_to_server(int count_arg, char **args);
-int					run_cmd(t_env *e, int cs);
+void				run_cmd(t_env *e, int cs);
 void				connect_to(t_env *e, int cs, char **input_arr);
 void				change_nick(t_env *e, int cs, char **input_arr);
 void				join_chan(t_env *e, int cs, char **input_arr);
@@ -89,7 +90,6 @@ void				leave_chan(t_env *e, int cs, char **input_arr);
 void				send_msg(t_env *e, int cs, char **input_arr);
 void				concat_arr(char **concat_msg, char **input_arr);
 void				print_error(char *str);
-void				print_help(void);
 void				get_time(t_env *e);
 void				clean_input(t_env *e);
 void				print_prompt(t_env *e);

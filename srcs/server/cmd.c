@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:20:25 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 11:08:09 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			send_to_chan(t_env *e, char *message, int sock, char *chan)
 	}
 }
 
-int				run_cmd(t_env *e, int cs, t_user user)
+void			run_cmd(t_env *e, int cs, t_user user)
 {
 	char		**input_arr;
 
@@ -47,5 +47,4 @@ int				run_cmd(t_env *e, int cs, t_user user)
 	ft_arrdel(input_arr);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 	e->fds[cs].user.whisper = false;
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:53:55 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 10:59:31 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 void		connect_to(t_env *e, int cs, char **input_arr)
 {
 	close(e->sock);
+	free(e->fds);
+	ft_strdel(&e->addr);
+	ft_strdel(&e->id_to_str);
+	free(e);
 	connect_to_server(ft_arrlen(input_arr), input_arr);
 }
 

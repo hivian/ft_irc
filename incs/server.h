@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:17:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 11:09:17 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void				init_fd(t_env *e);
 void				init_env(t_env *e);
 void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
-int					run_cmd(t_env *e, int cs, t_user user);
+void				run_cmd(t_env *e, int cs, t_user user);
 void				send_msg(t_env *e, char **input_arr, int cs);
 void				join_chan(t_env *e, int cs, char **inp_arr, t_user user);
 void				leave_chan(t_env *e, int cs, char **inp_arr, t_user user);

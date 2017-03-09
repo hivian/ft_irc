@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 15:50:17 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 12:11:38 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void				client_write(t_env *e, int cs)
 {
 	if (e->fds[cs].buf_write[0] == '/')
+	{
+		clean_input(e);
 		run_cmd(e, cs);
+	}
 	else if (e->fds[cs].buf_write[0] != '\n')
 	{
 		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
@@ -31,6 +34,8 @@ static void			print_recv(t_env *e, int cs, char *server, t_user user)
 	{
 		if (!server)
 		{
+			if (!strcmp(user.nickname, e->nick_ignored))
+				return ;
 			server = user.nickname;
 			if (user.whisper)
 				printf("*\033[33m%s*\033[0m %s", server, e->fds[cs].buf_read);

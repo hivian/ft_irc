@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:54:54 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 10:59:36 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ void					connect_to_server(int count_arg, char **args)
 	else
 		e->addr = args[1];
 	e->port = atoi(args[2]);
-	printf("ARGS = %s - %s\n", args[1], args[2]);
 	init_env(e);
 	create_client(e);
 	run_client(e);
 	close(e->sock);
 	free(e->fds);
+	ft_strdel(&e->addr);
 	ft_strdel(&e->id_to_str);
 	free(e);
 }
