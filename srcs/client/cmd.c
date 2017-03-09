@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/08 16:27:08 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:48:20 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int				run_cmd(t_env *e, int cs)
 	input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
 	if (!strcmp(input_arr[0], "/nick") && ft_arrlen(input_arr) == 2)
 		change_nick(e, cs, input_arr);
+	if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
+		connect_to(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
 		join_chan(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/leave") && ft_arrlen(input_arr) == 2)

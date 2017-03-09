@@ -13,6 +13,7 @@ SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/util.c \
 
 SRC_C		= $(SRC)client/main.c \
+			  $(SRC)client/connect.c \
 			  $(SRC)client/init.c \
 			  $(SRC)client/client.c \
 			  $(SRC)client/cmd.c \

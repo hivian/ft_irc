@@ -6,11 +6,17 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:33:18 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:53:55 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
+
+void		connect_to(t_env *e, int cs, char **input_arr)
+{
+	close(e->sock);
+	connect_to_server(ft_arrlen(input_arr), input_arr);
+}
 
 void		change_nick(t_env *e, int cs, char **input_arr)
 {

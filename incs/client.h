@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:34:31 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/09 09:52:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ void				check_fd(t_env *e);
 void				clean_fd(int i, t_env *e);
 void				client_write(t_env *e, int cs);
 void				client_read(t_env *e, int cs);
+void				connect_to_server(int count_arg, char **args);
 int					run_cmd(t_env *e, int cs);
+void				connect_to(t_env *e, int cs, char **input_arr);
 void				change_nick(t_env *e, int cs, char **input_arr);
 void				join_chan(t_env *e, int cs, char **input_arr);
 void				leave_chan(t_env *e, int cs, char **input_arr);
