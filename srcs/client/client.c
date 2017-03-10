@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 16:24:04 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/10 09:44:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,24 @@ void				client_write(t_env *e, int cs)
 static void			print_recv(t_env *e, int cs, char *server, t_user user)
 {
 	clean_input(e);
-	if (e->fds[cs].buf_read[strlen(e->fds[cs].buf_read) - 1] == '\n')
+	if (!server)
 	{
-		if (!server)
-		{
-			if (is_ignored(e->list, user.nickname))
-				return ;
-			server = user.nickname;
-			if (user.whisper)
-				printf("*\033[33m%s*\033[0m %s", server, e->fds[cs].buf_read);
-			else
-				printf("<\033[33m%s>\033[0m %s", server, e->fds[cs].buf_read);
-		}
+		if (is_ignored(e->list, user.nickname))
+			return ;
+		server = user.nickname;
+		if (user.whisper)
+			printf("*\033[33m%s*\033[0m %s", server, e->fds[cs].buf_read);
 		else
-		{
-			if (e->cmd_who)
-				server = "";
-			printf("\033[31m%s\033[0m%s", server, e->fds[cs].buf_read);
-			e->cmd_who = false;
-		}
-		memset(e->fds[cs].buf_read, 0, BUF_SIZE);
+			printf("<\033[33m%s>\033[0m %s", server, e->fds[cs].buf_read);
 	}
+	else
+	{
+		if (e->cmd_who)
+			server = "";
+		printf("\033[31m%s\033[0m%s", server, e->fds[cs].buf_read);
+		e->cmd_who = false;
+	}
+	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 }
 
 void				client_read(t_env *e, int cs)
@@ -71,9 +68,6 @@ void				client_read(t_env *e, int cs)
 		printf("Recv error\n");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
-	/*printf("USER = %s\n", user.nickname);
-	printf("USER = %s\n", user.channel);
-	printf("BUFF = %s\n", e->fds[cs].buf_read);*/
 	if (!strcmp(e->fds[e->sock].buf_read, "Nickname is already in use\n"))
 	{
 		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
