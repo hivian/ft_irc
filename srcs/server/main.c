@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:30:39 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:05:24 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/10 15:50:13 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void				run_server(t_env *e)
 {
 	struct timeval		waitd;
 
-	waitd = (struct timeval){5, 0};
+	//waitd = (struct timeval){5, 0};
 	while (true)
 	{
 		init_fd(e);
-		e->ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &waitd);
+		e->ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, 0);
 		check_fd(e);
 	}
 	free(e->fds);

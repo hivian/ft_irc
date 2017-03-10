@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/10 09:44:40 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/10 15:35:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void				client_read(t_env *e, int cs)
 	recv(cs, &user, sizeof(t_user), 0);
 	if (!strcmp(user.nickname, ""))
 		server = "== ";
-	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) < 0)
+	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		close(cs);
 		clean_fd(cs, e);
-		printf("Recv error\n");
+		print_error("\033[31mServer disconnected033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
 	if (!strcmp(e->fds[e->sock].buf_read, "Nickname is already in use\n"))
