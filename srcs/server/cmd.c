@@ -6,24 +6,25 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 11:08:09 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 12:24:07 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void			send_to_chan(t_env *e, char *message, int sock, char *chan)
+void			send_to_chan(t_env *e, char *message, int msg_type, char *chan)
 {
 	int			i;
 
 	i = 0;
 	while (i <= e->max)
 	{
-		if (e->fds[i].type == FD_CLIENT && i != sock && \
+		if (e->fds[i].type == FD_CLIENT && \
 		!strcmp(e->fds[i].user.channel, chan))
 		{
-			send(i, &e->fds[sock].user, sizeof(t_user), 0);
-			send(i, message, strlen(message), 0);
+			if (msg_type == MSG_ERR)
+				strcpy(e->fds[i].buf_write, "== ");
+			strcat(e->fds[i].buf_write, message);
 		}
 		i++;
 	}

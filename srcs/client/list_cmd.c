@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 10:09:25 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 12:43:28 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ void		send_msg(t_env *e, int cs, char **input_arr)
 	{
 		memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 		strncpy(e->fds[cs].buf_write, concat_msg, maxsize);
-		e->fds[cs].buf_write[strlen(e->fds[cs].buf_write)] = '\n';
 	}
-	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	ft_strdel(&concat_msg);
 }

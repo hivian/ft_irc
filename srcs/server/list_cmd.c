@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 16:27:42 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 12:32:42 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,28 +118,34 @@ void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
 void			send_msg(t_env *e, char **input_arr, int cs)
 {
 	int			fd_dest;
-	char		tmp[30];
+	char		tmp[BUF_SIZE];
 	int			i;
 
+	memset(tmp, 0, BUF_SIZE);
 	if ((fd_dest = get_fd_from_usr(e, input_arr[1])) < 0)
 	{
 		strcpy(tmp, "No such nick: ");
 		strcat(tmp, input_arr[1]);
-		send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
-		send(cs, tmp, strlen(tmp), 0);
-		send(cs, "\n", 1, 0);
+		//strcat(tmp, "\n");
+		strcpy(e->fds[fd_dest].buf_write, tmp);
+		printf("HERE = %s\n", e->fds[fd_dest].buf_write);
+		//send(cs, tmp, strlen(tmp), 0);
 	}
 	else
 	{
 		i = 2;
 		e->fds[cs].user.whisper = true;
-		send(fd_dest, &e->fds[cs].user, sizeof(t_user), 0);
+		//send(fd_dest, &e->fds[cs].user, sizeof(t_user), 0);
+		strcpy(tmp, "*");
+		strcat(tmp, e->fds[cs].user.nickname);
+		strcat(tmp, "* ");
 		while (input_arr[i])
 		{
 			if (i != 2)
-				send(fd_dest, " ", 1, 0);
-			send(fd_dest, input_arr[i], strlen(input_arr[i]), 0);
+				strcat(tmp, " ");
+			strcat(tmp, input_arr[i]);
 			i++;
 		}
+		send(fd_dest, tmp, BUF_SIZE, 0);
 	}
 }

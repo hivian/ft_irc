@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 10:21:01 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 11:20:41 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,10 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].type = FD_CLIENT;
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
-	recv(e->sock, &e->get_id, sizeof(e->get_id), O_CLOEXEC);
+	memset(concat, 0, NICK_SIZE);
+	recv(e->sock, concat, NICK_SIZE, 0);
 	strcpy(e->fds[e->sock].user.channel, CHAN_GEN);
-	strcpy(concat, "Guest");
-	e->id_to_str = ft_itoa(e->get_id);
-	strcat(concat, e->id_to_str);
 	strcpy(e->fds[e->sock].user.nickname, concat);
-	send(e->sock, &e->fds[e->sock].user, sizeof(t_user), 0);
 }
 
 void					connect_to_server(int count_arg, char **args)
