@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 12:40:49 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 15:46:51 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,15 @@ static void				server_read(t_env *e, int cs)
 
 	memset(concat, 0, NICK_SIZE);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
-	//recv(cs, &user, sizeof(t_user), 0);
 	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		strcpy(concat, e->fds[cs].user.nickname);
-		//strcpy(user.channel, e->fds[cs].user.channel);
 		clean_fd(cs, e);
 		close(cs);
 		get_time(e);
 		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
 		strcat(concat, " disconnected\n");
-		send_to_chan(e, concat, MSG_ERR, e->fds[cs].user.channel);
+		send_to_chan(e, concat, MSG_INFO, cs);
 	}
 	else
 	{
@@ -43,7 +41,7 @@ static void				server_read(t_env *e, int cs)
 		if (e->fds[cs].buf_read[0] == '/')
 			run_cmd(e, cs, user);
 		else
-			send_to_chan(e, e->fds[cs].buf_read, MSG_STD, e->fds[cs].user.channel);
+			send_to_chan(e, e->fds[cs].buf_read, MSG_STD, cs);
 	}
 }
 
@@ -75,5 +73,5 @@ void					srv_accept(t_env *e)
 	strcat(concat, e->fds[cs].user.channel);
 	strcat(concat, "\n");
 	e->max++;
-	send_to_chan(e, concat, MSG_ERR, e->fds[cs].user.channel);
+	send_to_chan(e, concat, MSG_INFO, cs);
 }

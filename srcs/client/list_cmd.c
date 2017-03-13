@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 12:43:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 16:08:30 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void		join_chan(t_env *e, int cs, char **input_arr)
 		memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
 		strncpy(e->fds[e->sock].user.channel, input_arr[1], \
 		strlen(input_arr[1]) - 1);
-		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
 }
@@ -78,7 +77,6 @@ void		leave_chan(t_env *e, int cs, char **input_arr)
 	{
 		memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
 		strncpy(e->fds[e->sock].user.channel, CHAN_GEN, strlen(CHAN_GEN));
-		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
 	ft_strdel(&trim);

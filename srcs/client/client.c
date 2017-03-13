@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 11:48:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 16:28:06 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,30 @@ void				client_write(t_env *e, int cs)
 		run_cmd(e, cs);
 	}
 	else if (e->fds[cs].buf_write[0] != '\n')
-	{
-		//send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
-	}
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 }
 
-static void			print_recv(t_env *e, int cs, char *server, t_user user)
+static void			print_recv(t_env *e, int cs, char *buf)
 {
+	char			**input_arr;
+
 	clean_input(e);
-	if (!server)
-	{
-		if (is_ignored(e->list, user.nickname))
-			return ;
-		printf("%s", e->fds[cs].buf_read);
-	}
-	else
-	{
-		if (e->cmd_who)
-			server = "";
-		printf("\033[31m%s\033[0m%s", server, e->fds[cs].buf_read);
-		e->cmd_who = false;
-	}
+	input_arr = ft_strsplit(buf, ' ');
+	printf("HERE = %s\n", input_arr[0]);
+	input_arr[0]++;
+	if (is_ignored(e->list, input_arr[0]))
+		return ;
+	printf("%s", e->fds[cs].buf_read);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
+	ft_arrdel(input_arr);
 }
 
 void				client_read(t_env *e, int cs)
 {
 	int					ret;
 	int					i;
-	char				*server;
-	t_user				user;
 
-	server = NULL;
-	//recv(cs, &user, sizeof(t_user), 0);
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		close(cs);
@@ -67,5 +56,5 @@ void				client_read(t_env *e, int cs)
 		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
 		strcpy(e->fds[e->sock].user.nickname, e->nick_backup);
 	}
-	print_recv(e, cs, server, user);
+	print_recv(e, cs, e->fds[cs].buf_read);
 }

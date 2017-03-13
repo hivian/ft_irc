@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 09:35:59 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 15:11:35 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void		unignore_nick(t_env *e, int cs, char **input_arr)
 
 static void		who_in_chan(t_env *e, int cs)
 {
-	e->cmd_who = true;
-	send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 12:16:31 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 15:46:51 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
-# define MSG_ERR	0
+# define MSG_INFO	0
 # define MSG_STD	1
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage : ./serveur <port>"
@@ -77,13 +77,13 @@ void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
 void				run_cmd(t_env *e, int cs, t_user user);
 void				send_msg(t_env *e, char **input_arr, int cs);
-void				join_chan(t_env *e, int cs, char **inp_arr, t_user user);
+void				join_chan(t_env *e, int cs, char **inp_arr);
 void				leave_chan(t_env *e, int cs, char **inp_arr, t_user user);
 void				change_nick(t_env *e, int cs, char **inp_arr, t_user user);
-void				who(t_env *e, int cs, t_user user);
+void				who(t_env *e, int cs);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);
-void				send_to_chan(t_env *e, char *mess, int msg_type, char *chan);
+void				send_to_chan(t_env *e, char *message, int msg_type, int cs);
 void				clean_fd(int i, t_env *e);
 void				print_error(char *str);
 void				get_time(t_env *e);
