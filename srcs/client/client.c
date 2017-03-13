@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 16:28:06 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 17:08:02 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,41 @@ void				client_write(t_env *e, int cs)
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 }
 
+static char			*trim_name(char *s)
+{
+	char	*str;
+	size_t	len;
+	int		i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	while (i < 6)
+	{
+		i++;
+		s++;
+	}
+	len = ft_strlen(s);
+	while (len > 6)
+		len--;
+	str = ft_strndup(s, len);
+	return (str);
+}
+
 static void			print_recv(t_env *e, int cs, char *buf)
 {
 	char			**input_arr;
+	char			*trim;
 
 	clean_input(e);
 	input_arr = ft_strsplit(buf, ' ');
-	printf("HERE = %s\n", input_arr[0]);
-	input_arr[0]++;
-	if (is_ignored(e->list, input_arr[0]))
+	trim = trim_name(input_arr[0]);
+	if (is_ignored(e->list, trim))
 		return ;
 	printf("%s", e->fds[cs].buf_read);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
 	ft_arrdel(input_arr);
+	ft_strdel(&trim);
 }
 
 void				client_read(t_env *e, int cs)
@@ -48,6 +70,7 @@ void				client_read(t_env *e, int cs)
 	{
 		close(cs);
 		clean_fd(cs, e);
+		clean_input(e);
 		print_error("\033[31mServer disconnected\033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';

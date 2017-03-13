@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 16:37:57 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 16:08:12 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 17:12:44 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,7 @@ void			change_nick(t_env *e, int cs, char **input_arr, t_user user)
 	memset(concat, 0, NICK_SIZE * 2 + 22);
 	memset(tmp, 0, NICK_SIZE);
 	if (duplicate_user(e, cs, user.nickname))
-	{
-		send(cs, &e->fds[e->sock].user, sizeof(t_user), 0);
 		send(cs, "Nickname is already in use\n", 27, 0);
-	}
 	else
 	{
 		strcpy(tmp, e->fds[cs].user.nickname);
