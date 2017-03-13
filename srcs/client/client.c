@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/10 15:35:16 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/13 10:13:02 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void				client_read(t_env *e, int cs)
 	{
 		close(cs);
 		clean_fd(cs, e);
-		print_error("\033[31mServer disconnected033[0m");
+		print_error("\033[31mServer disconnected\033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
 	if (!strcmp(e->fds[e->sock].buf_read, "Nickname is already in use\n"))
