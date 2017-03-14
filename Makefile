@@ -9,7 +9,6 @@ SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/init.c \
 			  $(SRC)server/server.c \
 			  $(SRC)server/cmd.c \
-			  $(SRC)server/list_cmd.c \
 			  $(SRC)server/util.c \
 			  $(SRC)server/cmd_msg.c \
 			  $(SRC)server/cmd_who.c \

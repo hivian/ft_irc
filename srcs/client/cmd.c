@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 11:57:17 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 16:17:53 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,8 @@ void			run_cmd(t_env *e, int cs)
 		unignore_nick(e, cs, input_arr);
 	else
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
+	if (!strncmp(input_arr[0], "/nick", 5) && ft_arrlen(input_arr) == 2 && \
+	strlen(input_arr[1]) - 1 < NICK_SIZE)
+		strncpy(e->nick_backup, input_arr[1], strlen(input_arr[1]) - 1);
 	ft_arrdel(input_arr);
 }

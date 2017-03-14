@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 11:07:32 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 16:15:45 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void				client_read(t_env *e, int cs)
 {
 	int					ret;
 	int					i;
+	char				nick_changed[BUF_SIZE];
 
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
@@ -74,10 +75,14 @@ void				client_read(t_env *e, int cs)
 		print_error("\033[31mServer disconnected\033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
-	if (!strcmp(e->fds[e->sock].buf_read, "Nickname is already in use\n"))
+	memset(nick_changed, 0, BUF_SIZE);
+	strcpy(nick_changed, e->fds[e->sock].user.nickname);
+	strcat(nick_changed, " has changed nick to");
+	if (ft_strstr(e->fds[e->sock].buf_read, nick_changed))
 	{
 		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
 		strcpy(e->fds[e->sock].user.nickname, e->nick_backup);
+		memset(e->nick_backup, 0, BUF_SIZE);
 	}
 	print_recv(e, cs, e->fds[cs].buf_read);
 }
