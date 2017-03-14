@@ -15,6 +15,7 @@ SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/cmd_who.c \
 			  $(SRC)server/cmd_join.c \
 			  $(SRC)server/cmd_leave.c \
+			  $(SRC)server/cmd_nick.c \
 
 SRC_C		= $(SRC)client/main.c \
 			  $(SRC)client/connect.c \

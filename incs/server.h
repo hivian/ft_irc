@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 11:39:23 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 15:20:34 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define BUF_SIZE	512
 # define NICK_SIZE	9
-# define CHAN_SIZE	50
+# define CHAN_SIZE	200
 # define CHAN_GEN	"#ft_irc-default"
 # define DATE_SIZE	26
 # define FD_FREE	0
@@ -75,11 +75,11 @@ void				init_fd(t_env *e);
 void				init_env(t_env *e);
 void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
-void				run_cmd(t_env *e, int cs, t_user user);
+void				run_cmd(t_env *e, int cs);
 void				send_msg(t_env *e, char **input_arr, int cs);
 void				join_chan(t_env *e, int cs, char **inp_arr);
-void				leave_chan(t_env *e, int cs, char **inp_arr, t_user user);
-void				change_nick(t_env *e, int cs, char **inp_arr, t_user user);
+void				leave_chan(t_env *e, int cs, char **input_arr);
+void				change_nick(t_env *e, int cs, char **input_arr);
 void				who_in_chan(t_env *e, int cs, char **input_arr);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);

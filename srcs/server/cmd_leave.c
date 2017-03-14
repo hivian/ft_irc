@@ -6,13 +6,13 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:05:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 12:37:02 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 15:10:52 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-static int		check_error2(t_env *e, int cs, char **input_arr)
+static int		chan_error(t_env *e, int cs, char **input_arr)
 {
 	char	*trim;
 
@@ -38,43 +38,56 @@ static int		check_error2(t_env *e, int cs, char **input_arr)
 	return (-1);
 }
 
+static int		args_error(t_env *e, int cs, char **input_arr)
+{
+	if (strlen(input_arr[1]) > CHAN_SIZE)
+	{
+		strcpy(e->fds[cs].buf_write, \
+			"\033[31m==\033[0m Channel name too long\n");
+		return (-1);
+	}
+	else if (input_arr[1][0] != '#')
+	{
+		strcpy(e->fds[cs].buf_write, \
+			"\033[31m==\033[0m Channel name must begin with #\n");
+		return (-1);
+	}
+	else if (strlen(input_arr[1]) < 4)
+	{
+		strcpy(e->fds[cs].buf_write, \
+			"\033[31m==\033[0m Channel name too short\n");
+		return (-1);
+	}
+	else if ((chan_error(e, cs, input_arr)) < 0)
+		return (-1);
+	return (1);
+}
+
 static int		check_error(t_env *e, int cs, char **input_arr)
 {
 	if (ft_arrlen(input_arr) > 2)
 	{
 		strcpy(e->fds[cs].buf_write, \
 			"\033[31m==\033[0m Usage: /leave [#channel]\n");
+		return (-1);
+	}
+	else if (ft_arrlen(input_arr) == 1 && \
+	!strcmp(e->fds[cs].user.channel, CHAN_GEN))
+	{
+		strcpy(e->fds[cs].buf_write, "\033[31m==\033[0m You can't leave ");
+		strcat(e->fds[cs].buf_write, CHAN_GEN);
+		strcat(e->fds[cs].buf_write, "\n");
+		return (-1);
 	}
 	else if (ft_arrlen(input_arr) == 2)
 	{
-		if (strlen(input_arr[1]) > CHAN_SIZE)
-		{
-			strcpy(e->fds[cs].buf_write, \
-				"\033[31m==\033[0m Channel name too long\n");
-		}
-		else if (input_arr[1][0] != '#')
-		{
-			strcpy(e->fds[cs].buf_write, \
-				"\033[31m==\033[0m Channel name must begin with #\n");
-		}
-		else if (strlen(input_arr[1]) < 4)
-		{
-			strcpy(e->fds[cs].buf_write, \
-				"\033[31m==\033[0m Channel name too short\n");
-		}
-		else if ((check_error2(e, cs, input_arr)) < 0)
-		{
-			printf("HERE\n");
+		if ((args_error(e, cs, input_arr)) < 0)
 			return (-1);
-		}
-		else
-			return (1);
-		return (-1);
 	}
 	return (1);
 }
 
-void			leave_chan(t_env *e, int cs, char **input_arr, t_user user)
+void			leave_chan(t_env *e, int cs, char **input_arr)
 {
 	char		concat[CHAN_SIZE + NICK_SIZE + 9];
 
@@ -97,6 +110,7 @@ void			leave_chan(t_env *e, int cs, char **input_arr, t_user user)
 	strcat(concat, CHAN_GEN);
 	strcat(concat, "\n");
 	send_to_chan(e, concat, MSG_INFO, cs);
+	//send(cs, concat, strlen(concat), 0);
 	printf("\033[31m[%s]\033[0m %s joined %s\n", \
 		e->strtime, e->fds[cs].user.nickname, e->fds[cs].user.channel);
 }

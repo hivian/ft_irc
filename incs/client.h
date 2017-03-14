@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 09:06:15 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 15:00:10 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define BUF_SIZE	512
 # define NICK_SIZE	9
-# define CHAN_SIZE	50
+# define CHAN_SIZE	200
 # define CHAN_GEN	"#ft_irc-default"
 # define FD_FREE	0
 # define FD_SERV	1

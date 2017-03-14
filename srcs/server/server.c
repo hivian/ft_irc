@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 10:36:06 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 15:20:15 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void				server_write(t_env *e, int cs)
 
 static void				server_read(t_env *e, int cs)
 {
-	t_user				user;
 	char				concat[NICK_SIZE + 14];
 
 	memset(concat, 0, NICK_SIZE);
@@ -39,7 +38,7 @@ static void				server_read(t_env *e, int cs)
 	{
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
 		if (e->fds[cs].buf_read[0] == '/')
-			run_cmd(e, cs, user);
+			run_cmd(e, cs);
 		else
 			send_to_chan(e, e->fds[cs].buf_read, MSG_STD, cs);
 	}
