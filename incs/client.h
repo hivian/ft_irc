@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 10:10:30 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 09:06:15 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ typedef struct		s_env
 	int				sock;
 	char			*addr;
 	int				ret;
-	bool			cmd_who;
 	fd_set			fd_read;
 	fd_set			fd_write;
 	FILE			*file;
 	char			strtime[26];
-	char			*id_to_str;
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];

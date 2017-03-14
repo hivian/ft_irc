@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 11:20:41 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 09:07:10 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void					connect_to_server(int count_arg, char **args)
 	e->list = create_list();
 	if (count_arg < 3)
 	{
-		e->addr = "127.0.0.1";
+		e->addr = strdup("127.0.0.1");
 		e->port = 4242;
 	}
 	else
@@ -104,6 +104,5 @@ void					connect_to_server(int count_arg, char **args)
 	close(e->sock);
 	free(e->fds);
 	ft_strdel(&e->addr);
-	ft_strdel(&e->id_to_str);
 	free(e);
 }

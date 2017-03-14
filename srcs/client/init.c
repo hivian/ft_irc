@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 10:11:27 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 09:06:43 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void				init_env(t_env *e)
 	e->max = 0;
 	e->sock = 0;
 	e->ret = 0;
-	e->id_to_str = NULL;
 	e->get_id = 0;
 	memset(e->nick_backup, 0, NICK_SIZE);
 	memset(e->concat_recv, 0, BUF_SIZE);
