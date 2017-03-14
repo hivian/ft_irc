@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 15:20:15 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 16:47:01 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void				server_read(t_env *e, int cs)
 
 	memset(concat, 0, NICK_SIZE);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
-	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
+	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE - 12 - NICK_SIZE, 0)) <= 0)
 	{
 		strcpy(concat, e->fds[cs].user.nickname);
 		clean_fd(cs, e);
@@ -36,6 +36,7 @@ static void				server_read(t_env *e, int cs)
 	}
 	else
 	{
+		printf("BUFF = %s\n", e->fds[cs].buf_read);
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
 		if (e->fds[cs].buf_read[0] == '/')
 			run_cmd(e, cs);

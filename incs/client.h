@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:25:42 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 17:35:39 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-# define BUF_SIZE	512
+# define BUF_SIZE	4096
 # define NICK_SIZE	9
 # define CHAN_SIZE	200
 # define CHAN_GEN	"#ft_irc-default"
@@ -60,8 +60,8 @@ typedef struct		s_fd
 	int				type;
 	void			(*fct_read)();
 	void			(*fct_write)();
-	char			buf_read[BUF_SIZE];
-	char			buf_write[BUF_SIZE];
+	char			buf_read[BUF_SIZE + 1];
+	char			buf_write[BUF_SIZE + 1];
 	t_user			user;
 }					t_fd;
 
@@ -80,7 +80,7 @@ typedef struct		s_env
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE];
-	char			concat_recv[BUF_SIZE];
+	char			concat_recv[BUF_SIZE + 1];
 	t_slist			*list;
 }					t_env;
 

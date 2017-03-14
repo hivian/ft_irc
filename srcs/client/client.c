@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:15:45 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 17:32:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void				client_write(t_env *e, int cs)
 	}
 	else if (e->fds[cs].buf_write[0] != '\n')
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
-	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
+	memset(e->fds[cs].buf_write, 0, BUF_SIZE + 1);
 }
 
 static char			*trim_name(char *s)
@@ -56,7 +56,7 @@ static void			print_recv(t_env *e, int cs, char *buf)
 		return ;
 	clean_input(e);
 	printf("%s", e->fds[cs].buf_read);
-	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
+	memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);
 	ft_arrdel(input_arr);
 	ft_strdel(&trim);
 }
@@ -65,7 +65,7 @@ void				client_read(t_env *e, int cs)
 {
 	int					ret;
 	int					i;
-	char				nick_changed[BUF_SIZE];
+	char				nick_changed[NICK_SIZE + 21];
 
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
@@ -75,14 +75,14 @@ void				client_read(t_env *e, int cs)
 		print_error("\033[31mServer disconnected\033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
-	memset(nick_changed, 0, BUF_SIZE);
+	memset(nick_changed, 0, NICK_SIZE + 21);
 	strcpy(nick_changed, e->fds[e->sock].user.nickname);
 	strcat(nick_changed, " has changed nick to");
 	if (ft_strstr(e->fds[e->sock].buf_read, nick_changed))
 	{
 		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
 		strcpy(e->fds[e->sock].user.nickname, e->nick_backup);
-		memset(e->nick_backup, 0, BUF_SIZE);
+		memset(e->nick_backup, 0, NICK_SIZE);
 	}
 	print_recv(e, cs, e->fds[cs].buf_read);
 }
