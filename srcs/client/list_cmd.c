@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 12:06:45 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 09:07:23 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 11:04:45 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ void		change_nick(t_env *e, int cs, char **input_arr)
 		printf("\033[31mNickname incorrect\033[0m\n");
 	else
 	{
-		memset(e->nick_backup, 0, NICK_SIZE);
-		strcpy(e->nick_backup, e->fds[e->sock].user.nickname);
-		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
-		strncpy(e->fds[e->sock].user.nickname, input_arr[1], \
-		strlen(input_arr[1]) - 1);
-		send(e->sock, &e->fds[cs].user, sizeof(t_user), 0);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
 }
@@ -50,9 +44,6 @@ void		join_chan(t_env *e, int cs, char **input_arr)
 		printf("\033[31mChannel name too short\033[0m\n");
 	else
 	{
-		memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
-		strncpy(e->fds[e->sock].user.channel, input_arr[1], \
-		strlen(input_arr[1]) - 1);
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
 }
@@ -74,8 +65,6 @@ void		leave_chan(t_env *e, int cs, char **input_arr)
 		printf("\033[31mYour channel is %s\033[0m\n", e->fds[cs].user.channel);
 	else
 	{
-		memset(e->fds[e->sock].user.channel, 0, CHAN_SIZE);
-		strncpy(e->fds[e->sock].user.channel, CHAN_GEN, strlen(CHAN_GEN));
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	}
 	ft_strdel(&trim);

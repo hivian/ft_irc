@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 15:11:35 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 11:57:17 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void		print_help(void)
 	printf("===================== - List of commands - ====================\n");
 	printf("#                                                             #\n");
 	printf("#    /nick <nickname>                                         #\n");
-	printf("#    /join, /leave [#channel]                                 #\n");
+	printf("#    /join <#channel>, /leave [#channel]                      #\n");
 	printf("#    /who                                                     #\n");
 	printf("#    /msg <nick> <message>                                    #\n");
 	printf("#    /ignore                                                  #\n");
@@ -70,35 +70,20 @@ static void		unignore_nick(t_env *e, int cs, char **input_arr)
 	}
 }
 
-static void		who_in_chan(t_env *e, int cs)
-{
-	send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
-}
-
 void			run_cmd(t_env *e, int cs)
 {
 	char		**input_arr;
 
 	input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
-	if (!strcmp(input_arr[0], "/nick") && ft_arrlen(input_arr) == 2)
-		change_nick(e, cs, input_arr);
-	else if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
+	if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
 		connect_to(e, input_arr);
-	else if (!strcmp(input_arr[0], "/join") && ft_arrlen(input_arr) == 2)
-		join_chan(e, cs, input_arr);
-	else if (!strcmp(input_arr[0], "/leave") && ft_arrlen(input_arr) == 2)
-		leave_chan(e, cs, input_arr);
 	else if (!strncmp(input_arr[0], "/help", 5) && ft_arrlen(input_arr) == 1)
 		print_help();
-	else if (!strcmp(input_arr[0], "/msg") && ft_arrlen(input_arr) > 2)
-		send_msg(e, cs, input_arr);
 	else if (!strncmp(input_arr[0], "/ignore", 7) && ft_arrlen(input_arr) < 3)
 		ignore_nick(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/unignore") && ft_arrlen(input_arr) == 2)
 		unignore_nick(e, cs, input_arr);
-	else if (!strncmp(input_arr[0], "/who", 4) && ft_arrlen(input_arr) == 1)
-		who_in_chan(e, cs);
 	else
-		printf("\033[31mUnknow command\033[0m\n");
+		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	ft_arrdel(input_arr);
 }

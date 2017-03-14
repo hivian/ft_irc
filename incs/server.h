@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/13 15:46:51 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/14 11:39:23 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void				send_msg(t_env *e, char **input_arr, int cs);
 void				join_chan(t_env *e, int cs, char **inp_arr);
 void				leave_chan(t_env *e, int cs, char **inp_arr, t_user user);
 void				change_nick(t_env *e, int cs, char **inp_arr, t_user user);
-void				who(t_env *e, int cs);
+void				who_in_chan(t_env *e, int cs, char **input_arr);
 int					get_fd_from_usr(t_env *e, char *name);
 int					duplicate_user(t_env *e, int cs, char *name);
 void				send_to_chan(t_env *e, char *message, int msg_type, int cs);
