@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:17:53 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 16:01:26 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ static void		unignore_nick(t_env *e, int cs, char **input_arr)
 		del_node(e->list, nick_ignored);
 		printf("\033[31mUnignored %s.\033[0m\n", nick_ignored);
 	}
+}
+
+static void		connect_to(t_env *e, char **input_arr)
+{
+	close(e->sock);
+	free(e->fds);
+	ft_strdel(&e->addr);
+	clear_list(e->list);
+	free(e);
+	connect_to_server(ft_arrlen(input_arr), input_arr);
 }
 
 void			run_cmd(t_env *e, int cs)

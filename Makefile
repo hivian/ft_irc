@@ -8,6 +8,7 @@ SRC			= srcs/
 SRC_S  		= $(SRC)server/main.c \
 			  $(SRC)server/init.c \
 			  $(SRC)server/server.c \
+			  $(SRC)server/ring_buffer.c \
 			  $(SRC)server/cmd.c \
 			  $(SRC)server/util.c \
 			  $(SRC)server/cmd_msg.c \
@@ -21,7 +22,6 @@ SRC_C		= $(SRC)client/main.c \
 			  $(SRC)client/init.c \
 			  $(SRC)client/client.c \
 			  $(SRC)client/cmd.c \
-			  $(SRC)client/list_cmd.c \
 			  $(SRC)client/util.c \
 			  $(SRC)client/list.c \
 			  $(SRC)client/list2.c \

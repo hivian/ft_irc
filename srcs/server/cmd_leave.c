@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:05:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 15:10:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 17:16:58 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void			leave_chan(t_env *e, int cs, char **input_arr)
 	strcat(concat, CHAN_GEN);
 	strcat(concat, "\n");
 	send_to_chan(e, concat, MSG_INFO, cs);
-	//send(cs, concat, strlen(concat), 0);
 	printf("\033[31m[%s]\033[0m %s joined %s\n", \
 		e->strtime, e->fds[cs].user.nickname, e->fds[cs].user.channel);
 }

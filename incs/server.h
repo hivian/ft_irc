@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 11:55:33 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 15:59:14 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void				init_fd(t_env *e);
 void				init_env(t_env *e);
 void				check_fd(t_env *e);
 void				srv_accept(t_env *e);
+void				ring_buffer_read(t_env *e, int cs, char *msg);
+void				ring_buffer_write(t_env *e, int cs, char *msg);
 void				run_cmd(t_env *e, int cs, char *buf);
 void				send_msg(t_env *e, char **input_arr, int cs);
 void				join_chan(t_env *e, int cs, char **inp_arr);
