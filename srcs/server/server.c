@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 10:00:39 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 11:00:00 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,31 @@ static void				server_write(t_env *e, int cs)
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 }
 
-static void				ring_buffer(t_env *e)
+static void				ring_buffer(t_env *e, char *msg)
 {
-	
+	char				buf[BUF_SIZE + 1];
+	int					i;
+	static int			j = -1;
+
+	i = 0;
+	if (j == -1)
+	{
+		memset(buf, 0, BUF_SIZE + 1);
+		j = 0;
+	}
+	while (msg[i])
+	{
+		if (j > BUF_SIZE)
+			j = 0;
+		buf[j++] = msg[i++];
+	}
+	printf("RING BUFF = %s\n", buf);
+	if (ft_strchr(buf, '\n'))
+	{
+		printf("HERE\n");
+		memset(buf, 0, BUF_SIZE + 1);
+		j = 0;
+	}
 }
 
 static void				server_read(t_env *e, int cs)
@@ -43,7 +65,7 @@ static void				server_read(t_env *e, int cs)
 	{
 		printf("BUFF = %s\n", e->fds[cs].buf_read);
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
-		ring_buffer(e);
+		ring_buffer(e, e->fds[cs].buf_read);
 		if (e->fds[cs].buf_read[0] == '/')
 			run_cmd(e, cs);
 		else
