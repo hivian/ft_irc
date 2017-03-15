@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 09:07:10 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 09:41:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void				create_client(t_env *e)
 	struct sockaddr_in	sin;
 	char				concat[NICK_SIZE];
 
+	if (getaddrinfo(e->addr, NULL, NULL, &e->servinfo))
+		print_error("getaddrinfo error");
 	proto = getprotobyname("tcp");
 	if (!proto)
 		print_error("getprotobyname error");

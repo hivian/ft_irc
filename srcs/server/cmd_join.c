@@ -6,11 +6,26 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 11:46:26 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:25:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 09:55:55 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
+
+static int		is_valid_chan(char *chan)
+{
+	int			i;
+
+	i = 0;
+	chan++;
+	while (chan[i] && chan[i] != '\n')
+	{
+		if (!ft_isalnum(chan[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static int		check_error(t_env *e, int cs, char **input_arr)
 {
@@ -24,10 +39,10 @@ static int		check_error(t_env *e, int cs, char **input_arr)
 		strcpy(e->fds[cs].buf_write, \
 			"\033[31m==\033[0m Channel name too long\n");
 	}
-	else if (input_arr[1][0] != '#')
+	else if (input_arr[1][0] != '#' || !is_valid_chan(input_arr[1]))
 	{
 		strcpy(e->fds[cs].buf_write, \
-			"\033[31m==\033[0m Channel name must begin with #\n");
+			"\033[31m==\033[0m Invalid character(s)\n");
 	}
 	else if (strlen(input_arr[1]) < 4)
 	{

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 17:35:39 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 09:41:30 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define FD_CLIENT	2
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage: ./client <machine> <port>"
+
+typedef struct addrinfo		t_addrinfo;
 
 typedef struct		s_node
 {
@@ -67,6 +69,7 @@ typedef struct		s_fd
 
 typedef struct		s_env
 {
+	t_addrinfo		*servinfo;
 	int				maxfd;
 	int				max;
 	int				port;

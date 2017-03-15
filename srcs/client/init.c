@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 17:31:29 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 09:48:23 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ void				check_fd(t_env *e)
 			e->fds[e->sock].fct_write(e, e->sock);
 		if (FD_ISSET(STDIN_FILENO, &e->fd_read) && get_next_line(0, &line) == 1)
 		{
-			strncpy(e->fds[e->sock].buf_write, line, BUF_SIZE - 2);
+			strncpy(e->fds[e->sock].buf_write, line, BUF_SIZE);
 			e->fds[e->sock].buf_write[strlen(e->fds[e->sock].buf_write)] = '\n';
 			ft_strdel(&line);
-
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:47:01 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 10:00:39 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ static void				server_write(t_env *e, int cs)
 {
 	send(cs, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
+}
+
+static void				ring_buffer(t_env *e)
+{
+	
 }
 
 static void				server_read(t_env *e, int cs)
@@ -38,6 +43,7 @@ static void				server_read(t_env *e, int cs)
 	{
 		printf("BUFF = %s\n", e->fds[cs].buf_read);
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
+		ring_buffer(e);
 		if (e->fds[cs].buf_read[0] == '/')
 			run_cmd(e, cs);
 		else
