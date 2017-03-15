@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 11:12:24 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 11:42:03 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 11:54:47 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void			send_msg(t_env *e, char **input_arr, int cs)
 	int			i;
 	int			fd_dest;
 
+	i = 0;
 	if ((fd_dest = check_error(e, cs, input_arr)) < 0)
 		return ;
 	else

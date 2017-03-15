@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/14 16:04:22 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 11:59:06 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void			send_to_chan(t_env *e, char *message, int msg_type, int cs)
 	}
 }
 
-void			run_cmd(t_env *e, int cs)
+void			run_cmd(t_env *e, int cs, char *buf)
 {
 	char		**input_arr;
 
-	input_arr = ft_strsplit(e->fds[cs].buf_read, ' ');
+	input_arr = ft_strsplit(buf, ' ');
 	if (!strncmp(input_arr[0], "/nick", 5))
 		change_nick(e, cs, input_arr);
 	if (!strncmp(input_arr[0], "/msg", 4))

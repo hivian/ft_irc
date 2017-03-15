@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 11:00:00 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/15 12:28:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,19 @@
 static void				server_write(t_env *e, int cs)
 {
 	send(cs, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
+	//printf("write = %s", e->fds[cs].buf_write);
 	memset(e->fds[cs].buf_write, 0, BUF_SIZE);
 }
 
-static void				ring_buffer(t_env *e, char *msg)
+static void				handle_msg(t_env *e, int cs, char *buf)
+{
+	if (buf[0] == '/')
+		run_cmd(e, cs, buf);
+	else
+		send_to_chan(e, buf, MSG_STD, cs);
+}
+
+static void				ring_buffer(t_env *e, int cs, char *msg)
 {
 	char				buf[BUF_SIZE + 1];
 	int					i;
@@ -32,14 +41,17 @@ static void				ring_buffer(t_env *e, char *msg)
 	}
 	while (msg[i])
 	{
-		if (j > BUF_SIZE)
+		if (j >= BUF_SIZE - 12 - NICK_SIZE){
+			printf("HERE\n");
 			j = 0;
+		}
 		buf[j++] = msg[i++];
 	}
+	//buf[j] = '\0';
 	printf("RING BUFF = %s\n", buf);
 	if (ft_strchr(buf, '\n'))
 	{
-		printf("HERE\n");
+		handle_msg(e, cs, buf);
 		memset(buf, 0, BUF_SIZE + 1);
 		j = 0;
 	}
@@ -65,11 +77,7 @@ static void				server_read(t_env *e, int cs)
 	{
 		printf("BUFF = %s\n", e->fds[cs].buf_read);
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
-		ring_buffer(e, e->fds[cs].buf_read);
-		if (e->fds[cs].buf_read[0] == '/')
-			run_cmd(e, cs);
-		else
-			send_to_chan(e, e->fds[cs].buf_read, MSG_STD, cs);
+		ring_buffer(e, cs, e->fds[cs].buf_read);
 	}
 }
 
