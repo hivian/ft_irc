@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:19:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:58:31 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 # define MAX(a,b)	((a > b) ? a : b)
 # define USAGE		"Usage : ./serveur <port>"
 
+typedef struct sockaddr_in	t_sockaddr_in;
+typedef struct socklen_t	t_socklen_t;
+
 typedef struct		s_user
 {
 	char			channel[CHAN_SIZE + 1];
@@ -59,6 +62,8 @@ typedef struct		s_fd
 typedef struct		s_env
 {
 	t_fd			*fds;
+	t_sockaddr_in	csin;
+	t_socklen_t		cslen;
 	int				port;
 	int				sock;
 	int				maxfd;

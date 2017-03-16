@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 11:45:49 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:58:53 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ static void				server_read(t_env *e, int cs)
 void					srv_accept(t_env *e)
 {
 	int					cs;
-	struct sockaddr_in	csin;
-	socklen_t			cslen;
 	char				concat[NICK_SIZE + 9 + CHAN_SIZE];
 
-	cslen = sizeof(csin);
+	e->cslen = sizeof(e->csin);
 	get_time(e);
-	if ((cs = accept(e->sock, (struct sockaddr *)&csin, &cslen)) < 0)
+	if ((cs = accept(e->sock, (struct sockaddr *)&e->csin, &e->cslen)) < 0)
 		printf("\033[31m[%s]\033[0m Client connection failed", e->strtime);
 	e->fds[cs].type = FD_CLIENT;
 	e->fds[cs].fct_read = server_read;
@@ -60,7 +58,7 @@ void					srv_accept(t_env *e)
 	strcat(e->fds[cs].user.nickname, ft_itoa(cs));
 	send(cs, e->fds[cs].user.nickname, NICK_SIZE, 0);
 	printf("\033[31m[%s]\033[0m New client #%d from %s:%d\n", e->strtime, cs,
-		inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
+		inet_ntoa(e->csin.sin_addr), ntohs(e->csin.sin_port));
 	printf("\033[31m[%s]\033[0m %s joined %s\n", e->strtime, \
 		e->fds[cs].user.nickname, e->fds[cs].user.channel);
 	memset(concat, 0, NICK_SIZE + 9 + CHAN_SIZE);
