@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 11:12:24 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 11:54:47 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:20:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void			send_msg(t_env *e, char **input_arr, int cs)
 	else
 	{
 		i = 2;
-		e->fds[cs].user.whisper = true;
 		strcpy(e->fds[fd_dest].buf_write, "\033[33m*");
 		strcat(e->fds[fd_dest].buf_write, e->fds[cs].user.nickname);
 		strcat(e->fds[fd_dest].buf_write, "*\033[0m ");

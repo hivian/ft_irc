@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 09:19:04 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:25:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void					get_time(t_env *e)
 void					print_prompt(t_env *e)
 {
 	ft_putstr("\033[36m");
-	ft_putstr(e->fds[e->sock].user.nickname);
+	ft_putstr(e->nickname);
 	ft_putstr(" $> ");
 	ft_putstr("\033[0m");
 }

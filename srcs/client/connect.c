@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 09:41:11 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:12:26 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void				create_client(t_env *e)
 {
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
-	char				concat[NICK_SIZE];
+	char				concat[NICK_SIZE + 1];
 
 	if (getaddrinfo(e->addr, NULL, NULL, &e->servinfo))
 		print_error("getaddrinfo error");
@@ -75,10 +75,7 @@ static void				create_client(t_env *e)
 	e->fds[e->sock].type = FD_CLIENT;
 	e->fds[e->sock].fct_write = client_write;
 	e->fds[e->sock].fct_read = client_read;
-	memset(concat, 0, NICK_SIZE);
-	recv(e->sock, concat, NICK_SIZE, 0);
-	strcpy(e->fds[e->sock].user.channel, CHAN_GEN);
-	strcpy(e->fds[e->sock].user.nickname, concat);
+	recv(e->sock, e->nickname, NICK_SIZE, 0);
 }
 
 void					connect_to_server(int count_arg, char **args)

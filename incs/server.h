@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 15:59:14 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:19:11 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@
 
 typedef struct		s_user
 {
-	char			channel[CHAN_SIZE];
-	char			nickname[NICK_SIZE];
-	bool			whisper;
+	char			channel[CHAN_SIZE + 1];
+	char			nickname[NICK_SIZE + 1];
 }					t_user;
 
 typedef struct		s_fd

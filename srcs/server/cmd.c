@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 11:59:06 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:20:00 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ void			run_cmd(t_env *e, int cs, char *buf)
 	else if (!strncmp(input_arr[0], "/who", 4))
 		who_in_chan(e, cs, input_arr);
 	ft_arrdel(input_arr);
-	memset(e->fds[cs].buf_read, 0, BUF_SIZE);
-	e->fds[cs].user.whisper = false;
+	memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);
 }

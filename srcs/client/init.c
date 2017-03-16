@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 09:48:23 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:22:42 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ void				clean_fd(int i, t_env *e)
 	e->fds[i].fct_write = NULL;
 	memset(e->fds[i].buf_write, 0, BUF_SIZE + 1);
 	memset(e->fds[i].buf_read, 0, BUF_SIZE + 1);
-	memset(e->fds[i].user.channel, 0, CHAN_SIZE);
-	memset(e->fds[i].user.nickname, 0, NICK_SIZE);
-	e->fds[i].user.whisper = false;
 }
 
 void				check_fd(t_env *e)
@@ -48,14 +45,13 @@ void				init_env(t_env *e)
 {
 	if (!(e->fds = (t_fd*)malloc(sizeof(*e->fds))))
 		print_error("malloc: failed");
-	memset(e->concat_recv, 0, BUF_SIZE + 1);
 	e->maxfd = 0;
 	e->max = 0;
 	e->sock = 0;
 	e->ret = 0;
 	e->get_id = 0;
-	memset(e->nick_backup, 0, NICK_SIZE);
-	memset(e->concat_recv, 0, BUF_SIZE + 1);
+	memset(e->nickname, 0, NICK_SIZE + 1);
+	memset(e->nick_backup, 0, NICK_SIZE + 1);
 	clean_fd(e->sock, e);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 16:03:47 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:25:43 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ void				client_read(t_env *e, int cs)
 	}
 	e->fds[cs].buf_read[ret] = '\0';
 	memset(nick_changed, 0, NICK_SIZE + 21);
-	strcpy(nick_changed, e->fds[e->sock].user.nickname);
+	strcpy(nick_changed, e->nickname);
 	strcat(nick_changed, " has changed nick to");
 	if (ft_strstr(e->fds[e->sock].buf_read, nick_changed))
 	{
-		memset(e->fds[e->sock].user.nickname, 0, NICK_SIZE);
-		strcpy(e->fds[e->sock].user.nickname, e->nick_backup);
-		memset(e->nick_backup, 0, NICK_SIZE);
+		memset(e->nickname, 0, NICK_SIZE + 1);
+		strcpy(e->nickname, e->nick_backup);
+		memset(e->nick_backup, 0, NICK_SIZE + 1);
 	}
 	print_recv(e, cs, e->fds[cs].buf_read);
 }

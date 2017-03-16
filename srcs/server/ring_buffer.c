@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 15:41:22 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 17:32:51 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:09:28 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void				ring_buffer_write(t_env *e, int cs, char *msg)
 				i = 0;
 			buf[j++] = msg[i++];
 		}
-		printf("FINAL BUFF = %s\n", buf);
 		handle_buf(e, cs, buf);
 	}
 }
@@ -59,14 +58,12 @@ void				ring_buffer_read(t_env *e, int cs, char *msg)
 		memset(buf, 0, BUF_SIZE + 1);
 		j = 0;
 	}
-	printf("BUFF = %s\n", msg);
 	while (msg[i])
 	{
 		if (j > BUF_SIZE - 12 - NICK_SIZE)
 			j = 0;
 		buf[j++] = msg[i++];
 	}
-	printf("RING BUFF = %s", buf);
 	if (ft_strchr(buf, '\n'))
 	{
 		ring_buffer_write(e, cs, buf);

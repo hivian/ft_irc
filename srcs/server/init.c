@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 09:37:25 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/09 09:06:03 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:19:47 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ void				clean_fd(int i, t_env *e)
 	e->fds[i].type = FD_FREE;
 	e->fds[i].fct_read = NULL;
 	e->fds[i].fct_write = NULL;
-	memset(e->fds[i].buf_write, 0, BUF_SIZE);
-	memset(e->fds[i].buf_read, 0, BUF_SIZE);
-	memset(e->fds[i].user.channel, 0, CHAN_SIZE);
-	memset(e->fds[i].user.nickname, 0, NICK_SIZE);
-	e->fds[i].user.whisper = false;
+	memset(e->fds[i].buf_write, 0, BUF_SIZE + 1);
+	memset(e->fds[i].buf_read, 0, BUF_SIZE + 1);
+	memset(e->fds[i].user.channel, 0, CHAN_SIZE + 1);
+	memset(e->fds[i].user.nickname, 0, NICK_SIZE + 1);
 }
 
 void				check_fd(t_env *e)

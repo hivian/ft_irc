@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 16:03:14 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:25:51 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 
 # define BUF_SIZE	4096
 # define NICK_SIZE	9
-# define CHAN_SIZE	200
 # define CHAN_GEN	"#ft_irc-default"
 # define FD_FREE	0
 # define FD_SERV	1
@@ -50,13 +49,6 @@ typedef struct		s_slist
 	t_node			*head;
 }					t_slist;
 
-typedef struct		s_user
-{
-	char			channel[CHAN_SIZE];
-	char			nickname[NICK_SIZE];
-	bool			whisper;
-}					t_user;
-
 typedef struct		s_fd
 {
 	int				type;
@@ -64,7 +56,6 @@ typedef struct		s_fd
 	void			(*fct_write)();
 	char			buf_read[BUF_SIZE + 1];
 	char			buf_write[BUF_SIZE + 1];
-	t_user			user;
 }					t_fd;
 
 typedef struct		s_env
@@ -75,6 +66,7 @@ typedef struct		s_env
 	int				port;
 	int				sock;
 	char			*addr;
+	char			nickname[NICK_SIZE + 1];
 	int				ret;
 	fd_set			fd_read;
 	fd_set			fd_write;
@@ -82,8 +74,7 @@ typedef struct		s_env
 	char			strtime[26];
 	int				get_id;
 	t_fd			*fds;
-	char			nick_backup[NICK_SIZE];
-	char			concat_recv[BUF_SIZE + 1];
+	char			nick_backup[NICK_SIZE + 1];
 	t_slist			*list;
 }					t_env;
 

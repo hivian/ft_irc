@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 17:28:56 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 10:00:37 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ static void				server_read(t_env *e, int cs)
 	char				concat[NICK_SIZE + 14];
 
 	memset(concat, 0, NICK_SIZE + 14);
-	memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);
 	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		strcpy(concat, e->fds[cs].user.nickname);
+		strcat(concat, " disconnected\n");
+		send_to_chan(e, concat, MSG_INFO, cs);
 		clean_fd(cs, e);
 		close(cs);
 		get_time(e);
 		printf("\033[31m[%s]\033[0m Client #%d gone away\n", e->strtime, cs);
-		strcat(concat, " disconnected\n");
-		send_to_chan(e, concat, MSG_INFO, cs);
 	}
 	else
 	{
 		e->fds[cs].buf_read[e->ret_recv] = '\0';
 		ring_buffer_read(e, cs, e->fds[cs].buf_read);
+		memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);
 	}
 }
 
