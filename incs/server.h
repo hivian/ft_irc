@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 10:29:21 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 12:58:31 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 13:01:16 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 # define USAGE		"Usage : ./serveur <port>"
 
 typedef struct sockaddr_in	t_sockaddr_in;
-typedef struct socklen_t	t_socklen_t;
 
 typedef struct		s_user
 {
@@ -63,7 +62,7 @@ typedef struct		s_env
 {
 	t_fd			*fds;
 	t_sockaddr_in	csin;
-	t_socklen_t		cslen;
+	socklen_t		cslen;
 	int				port;
 	int				sock;
 	int				maxfd;
