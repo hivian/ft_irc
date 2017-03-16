@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:00:37 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 11:45:49 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void				server_write(t_env *e, int cs)
 
 static void				server_read(t_env *e, int cs)
 {
-	char				concat[NICK_SIZE + 14];
+	char				concat[NICK_SIZE + 15];
 
-	memset(concat, 0, NICK_SIZE + 14);
+	memset(concat, 0, NICK_SIZE + 15);
 	if ((e->ret_recv = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		strcpy(concat, e->fds[cs].user.nickname);

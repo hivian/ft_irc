@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:16:18 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:44:29 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void		ignore_nick(t_env *e, int cs, char **input_arr)
 	char		*str;
 
 	str = "to unignore type: /UNIGNORE";
-	memset(nick_ignored, 0, NICK_SIZE);
+	memset(nick_ignored, 0, NICK_SIZE + 1);
 	if (ft_arrlen(input_arr) == 1)
 		print_list(e->list);
 	else if (input_arr[1][0] == '\n')
 		printf("\033[31mNickname incorrect\033[0m\n");
-	else if (strlen(input_arr[1]) > NICK_SIZE)
+	else if (strlen(input_arr[1]) - 1 > NICK_SIZE)
 		printf("\033[31mNickname too long\033[0m\n");
 	else
 	{
@@ -57,10 +57,10 @@ static void		unignore_nick(t_env *e, int cs, char **input_arr)
 {
 	char		nick_ignored[NICK_SIZE + 1];
 
-	memset(nick_ignored, 0, NICK_SIZE);
+	memset(nick_ignored, 0, NICK_SIZE + 1);
 	if (input_arr[1][0] == '\n')
 		printf("\033[31mNickname incorrect\033[0m\n");
-	else if (strlen(input_arr[1]) > NICK_SIZE)
+	else if (strlen(input_arr[1]) - 1 > NICK_SIZE)
 		printf("\033[31mNickname too long\033[0m\n");
 	else
 	{
@@ -96,7 +96,7 @@ void			run_cmd(t_env *e, int cs)
 	else
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	if (!strncmp(input_arr[0], "/nick", 5) && ft_arrlen(input_arr) == 2 && \
-	strlen(input_arr[1]) - 1 < NICK_SIZE + 1)
+	strlen(input_arr[1]) - 1 <= NICK_SIZE)
 		strncpy(e->nick_backup, input_arr[1], strlen(input_arr[1]) - 1);
 	ft_arrdel(input_arr);
 }

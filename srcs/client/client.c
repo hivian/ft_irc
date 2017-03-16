@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:25:43 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:44:44 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ static char			*trim_name(char *s)
 		i++;
 		s++;
 	}
-	len = ft_strlen(s);
-	while (len > 6)
-		len--;
+	len = ft_strlen(s) - 5;
 	str = ft_strndup(s, len);
 	return (str);
 }
@@ -76,7 +74,7 @@ void				client_read(t_env *e, int cs)
 	}
 	e->fds[cs].buf_read[ret] = '\0';
 	memset(nick_changed, 0, NICK_SIZE + 21);
-	strcpy(nick_changed, e->nickname);
+	strncpy(nick_changed, e->nickname, strlen(e->nickname));
 	strcat(nick_changed, " has changed nick to");
 	if (ft_strstr(e->fds[e->sock].buf_read, nick_changed))
 	{

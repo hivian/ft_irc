@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 12:05:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/15 17:16:58 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 11:27:40 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int		chan_error(t_env *e, int cs, char **input_arr)
 
 static int		args_error(t_env *e, int cs, char **input_arr)
 {
-	if (strlen(input_arr[1]) > CHAN_SIZE)
+	if (strlen(input_arr[1]) - 1 > CHAN_SIZE)
 	{
 		strcpy(e->fds[cs].buf_write, \
 			"\033[31m==\033[0m Channel name too long\n");
@@ -89,11 +89,11 @@ static int		check_error(t_env *e, int cs, char **input_arr)
 
 void			leave_chan(t_env *e, int cs, char **input_arr)
 {
-	char		concat[CHAN_SIZE + NICK_SIZE + 9];
+	char		concat[CHAN_SIZE + NICK_SIZE + 11];
 
 	if ((check_error(e, cs, input_arr)) < 0)
 		return ;
-	memset(concat, 0, CHAN_SIZE + NICK_SIZE + 9);
+	memset(concat, 0, CHAN_SIZE + NICK_SIZE + 11);
 	get_time(e);
 	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " leaved ");
@@ -102,9 +102,9 @@ void			leave_chan(t_env *e, int cs, char **input_arr)
 	send_to_chan(e, concat, MSG_INFO, cs);
 	printf("\033[31m[%s]\033[0m %s leaved %s\n", \
 		e->strtime, e->fds[cs].user.nickname, e->fds[cs].user.channel);
-	memset(e->fds[cs].user.channel, 0, CHAN_SIZE);
+	memset(e->fds[cs].user.channel, 0, CHAN_SIZE + 1);
 	strncpy(e->fds[cs].user.channel, CHAN_GEN, strlen(CHAN_GEN));
-	memset(concat, 0, CHAN_SIZE + NICK_SIZE + 9);
+	memset(concat, 0, CHAN_SIZE + NICK_SIZE + 11);
 	strcpy(concat, e->fds[cs].user.nickname);
 	strcat(concat, " joined ");
 	strcat(concat, CHAN_GEN);

@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:25:40 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:46:14 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void					print_prompt(t_env *e)
 
 void					clean_input(t_env *e)
 {
-	char				tmp[BUF_SIZE + 4];
+	char				tmp[BUF_SIZE];
 
-	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, 0, BUF_SIZE);
 	memset(tmp, '\b', NICK_SIZE + 4);
 	ft_putstr(tmp);
-	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, 0, BUF_SIZE);
 	memset(tmp, ' ', NICK_SIZE + 4);
 	ft_putstr(tmp);
-	memset(tmp, 0, BUF_SIZE + 4);
+	memset(tmp, 0, BUF_SIZE);
 	memset(tmp, '\b', NICK_SIZE + 4);
 	ft_putstr(tmp);
 }
