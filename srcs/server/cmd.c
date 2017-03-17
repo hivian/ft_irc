@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/17 09:57:44 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 10:19:22 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,28 @@
 static void		print_help(t_env *e, int cs, char **input_arr)
 {
 	if (ft_arrlen(input_arr) != 1)
+	{
+		strcpy(e->fds[cs].buf_write, "\033[31m==\033[0m Unknow command\n");
 		return ;
+	}
 	strcpy(e->fds[cs].buf_write,
 		"===================== - List of commands - ====================\n");
 	strcat(e->fds[cs].buf_write,
-		"#                                                             #\n");
+		"\033[31m> \033[0m    /nick <nickname>\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /nick <nickname>                                         #\n");
+		"\033[31m> \033[0m    /join <#channel>, /leave [#channel]\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /join <#channel>, /leave [#channel]                      #\n");
+		"\033[31m> \033[0m    /who\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /who                                                     #\n");
+		"\033[31m> \033[0m    /msg <nick> <message>\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /msg <nick> <message>                                    #\n");
+		"\033[31m> \033[0m    /ignore\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /ignore                                                  #\n");
+		"\033[31m> \033[0m    /ignore <nick>\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /ignore <nick>                                           #\n");
+		"\033[31m> \033[0m    /unignore <nick>\n");
 	strcat(e->fds[cs].buf_write,
-		"#    /unignore <nick>                                         #\n");
-	strcat(e->fds[cs].buf_write,
-		"#    /connect <machine> [port]                                #\n");
-	strcat(e->fds[cs].buf_write,
-		"#                                                             #\n");
+		"\033[31m> \033[0m    /connect <machine> [port]\n");
 	strcat(e->fds[cs].buf_write,
 		"===============================================================\n");
 }

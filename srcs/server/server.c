@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 11:24:05 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 13:00:00 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 11:06:13 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ static void				server_read(t_env *e, int cs)
 	}
 }
 
+static void				init_client(t_env *e, int cs)
+{
+	char				*cs_to_str;
+
+	cs_to_str = ft_itoa(cs);
+	e->fds[cs].type = FD_CLIENT;
+	e->fds[cs].fct_read = server_read;
+	e->fds[cs].fct_write = server_write;
+	strcpy(e->fds[cs].user.channel, CHAN_GEN);
+	strcpy(e->fds[cs].user.nickname, "Guest");
+	strcat(e->fds[cs].user.nickname, cs_to_str);
+	ft_strdel(&cs_to_str);
+}
+
 void					srv_accept(t_env *e)
 {
 	int					cs;
@@ -50,12 +64,7 @@ void					srv_accept(t_env *e)
 	get_time(e);
 	if ((cs = accept(e->sock, (struct sockaddr *)&e->csin, &e->cslen)) < 0)
 		printf("\033[31m[%s]\033[0m Client connection failed", e->strtime);
-	e->fds[cs].type = FD_CLIENT;
-	e->fds[cs].fct_read = server_read;
-	e->fds[cs].fct_write = server_write;
-	strcpy(e->fds[cs].user.channel, CHAN_GEN);
-	strcpy(e->fds[cs].user.nickname, "Guest");
-	strcat(e->fds[cs].user.nickname, ft_itoa(cs));
+	init_client(e, cs);
 	send(cs, e->fds[cs].user.nickname, NICK_SIZE, 0);
 	printf("\033[31m[%s]\033[0m New client #%d from %s:%d\n", e->strtime, cs,
 		inet_ntoa(e->csin.sin_addr), ntohs(e->csin.sin_port));

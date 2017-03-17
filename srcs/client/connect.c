@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 10:12:26 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 12:16:52 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,36 @@ void					connect_to_server(int count_arg, char **args)
 
 	e = (t_env *)malloc(sizeof(t_env));
 	e->list = create_list();
-	if (count_arg < 3)
+	if (count_arg == 1)
 	{
 		e->addr = strdup("127.0.0.1");
 		e->port = 4242;
 	}
+	else if (count_arg == 2)
+	{
+		if (!strncmp(args[1], "localhost", 9))
+			get_localhost(e);
+		else if (args[1][strlen(args[1]) - 1] == '\n')
+			e->addr = strndup(args[1], strlen(args[1]) - 1);
+		else
+			e->addr = strdup(args[1]);
+		e->port = 4242;
+	}
 	else
 	{
-		if (!strcmp(args[1], "localhost"))
+		if (!strncmp(args[1], "localhost", 9))
 			get_localhost(e);
 		else
-			e->addr = args[1];
+			e->addr = strdup(args[1]);
 		e->port = atoi(args[2]);
 	}
+	//if (e->cmd_connect)
+		//sleep(2000);
 	init_env(e);
 	create_client(e);
 	run_client(e);
 	close(e->sock);
+	clear_list(e->list);
 	free(e->fds);
 	ft_strdel(&e->addr);
 	free(e);
