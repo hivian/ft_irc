@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 11:37:29 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 12:44:44 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 14:00:56 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ static void			print_recv(t_env *e, int cs, char *buf)
 	input_arr = ft_strsplit(buf, ' ');
 	trim = trim_name(input_arr[0]);
 	if (is_ignored(e->list, trim))
+	{
+		ft_arrdel(input_arr);
+		ft_strdel(&trim);
 		return ;
+	}
 	clean_input(e);
 	printf("%s", e->fds[cs].buf_read);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);

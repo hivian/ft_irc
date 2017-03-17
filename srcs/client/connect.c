@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:39:42 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/17 12:16:52 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 14:01:06 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,9 @@ static void				create_client(t_env *e)
 	recv(e->sock, e->nickname, NICK_SIZE, 0);
 }
 
-void					connect_to_server(int count_arg, char **args)
+void					init_addr(t_env *e, int count_arg, char **args)
 {
-	t_env				*e;
-
-	e = (t_env *)malloc(sizeof(t_env));
-	e->list = create_list();
-	if (count_arg == 1)
+	if (count_arg == 1 || args[1][0] == '\n')
 	{
 		e->addr = strdup("127.0.0.1");
 		e->port = 4242;
@@ -107,14 +103,17 @@ void					connect_to_server(int count_arg, char **args)
 			e->addr = strdup(args[1]);
 		e->port = atoi(args[2]);
 	}
-	//if (e->cmd_connect)
-		//sleep(2000);
+}
+
+void					connect_to_server(int count_arg, char **args)
+{
+	t_env				*e;
+
+	e = (t_env *)malloc(sizeof(t_env));
+	e->list = create_list();
+	init_addr(e, count_arg, args);
 	init_env(e);
 	create_client(e);
 	run_client(e);
-	close(e->sock);
-	clear_list(e->list);
-	free(e->fds);
-	ft_strdel(&e->addr);
 	free(e);
 }

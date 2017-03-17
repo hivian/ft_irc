@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 13:00:43 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/17 12:11:28 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 13:28:59 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct		s_fd
 
 typedef struct		s_env
 {
-	t_addrinfo		*servinfo;
 	int				maxfd;
 	int				max;
 	int				port;
@@ -71,11 +70,11 @@ typedef struct		s_env
 	fd_set			fd_read;
 	fd_set			fd_write;
 	FILE			*file;
-	char			strtime[26];
 	int				get_id;
 	t_fd			*fds;
 	char			nick_backup[NICK_SIZE + 1];
 	t_slist			*list;
+	t_addrinfo		*servinfo;
 }					t_env;
 
 void				init_fd(t_env *e);
