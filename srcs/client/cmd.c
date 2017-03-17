@@ -6,27 +6,11 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 12:44:29 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/17 09:57:24 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
-
-static void		print_help(void)
-{
-	printf("===================== - List of commands - ====================\n");
-	printf("#                                                             #\n");
-	printf("#    /nick <nickname>                                         #\n");
-	printf("#    /join <#channel>, /leave [#channel]                      #\n");
-	printf("#    /who                                                     #\n");
-	printf("#    /msg <nick> <message>                                    #\n");
-	printf("#    /ignore                                                  #\n");
-	printf("#    /ignore <nick>                                           #\n");
-	printf("#    /unignore <nick>                                         #\n");
-	printf("#    /connect <machine> [port]                                #\n");
-	printf("#                                                             #\n");
-	printf("===============================================================\n");
-}
 
 static void		ignore_nick(t_env *e, int cs, char **input_arr)
 {
@@ -87,8 +71,6 @@ void			run_cmd(t_env *e, int cs)
 	input_arr = ft_strsplit(e->fds[cs].buf_write, ' ');
 	if (!strcmp(input_arr[0], "/connect") && ft_arrlen(input_arr) == 3)
 		connect_to(e, input_arr);
-	else if (!strncmp(input_arr[0], "/help", 5) && ft_arrlen(input_arr) == 1)
-		print_help();
 	else if (!strncmp(input_arr[0], "/ignore", 7) && ft_arrlen(input_arr) < 3)
 		ignore_nick(e, cs, input_arr);
 	else if (!strcmp(input_arr[0], "/unignore") && ft_arrlen(input_arr) == 2)
