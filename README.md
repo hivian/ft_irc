@@ -1,5 +1,5 @@
 # ft_irc
-IRC client/server
+IRC client/server - RFC 1459
 
 ```
 ===================== - List of commands - ====================
