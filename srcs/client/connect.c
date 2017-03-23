@@ -47,7 +47,7 @@ static void				run_client(t_env *e)
 	printf("\033[1;30m- /help : list of commmands\033[0m\n");
 	while (true)
 	{
-		clean_input(e);
+		clean_input();
 		print_prompt(e);
 		init_fd(e);
 		e->ret = select(e->sock + 1, &e->fd_read, &e->fd_write, NULL, 0);
@@ -59,7 +59,6 @@ static void				create_client(t_env *e)
 {
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
-	char				concat[NICK_SIZE + 1];
 
 	if (getaddrinfo(e->addr, NULL, NULL, &e->servinfo))
 		print_error("getaddrinfo error");

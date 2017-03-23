@@ -6,13 +6,13 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:01:44 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/17 14:36:26 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/23 09:22:09 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void		ignore_nick(t_env *e, int cs, char **input_arr)
+static void		ignore_nick(t_env *e, char **input_arr)
 {
 	char		nick_ignored[NICK_SIZE + 1];
 	char		*str;
@@ -37,7 +37,7 @@ static void		ignore_nick(t_env *e, int cs, char **input_arr)
 	}
 }
 
-static void		unignore_nick(t_env *e, int cs, char **input_arr)
+static void		unignore_nick(t_env *e, char **input_arr)
 {
 	char		nick_ignored[NICK_SIZE + 1];
 
@@ -72,9 +72,9 @@ void			run_cmd(t_env *e, int cs)
 	if (!strncmp(input_arr[0], "/connect", 8))
 		connect_to(e, cs, input_arr);
 	else if (!strncmp(input_arr[0], "/ignore", 7) && ft_arrlen(input_arr) < 3)
-		ignore_nick(e, cs, input_arr);
+		ignore_nick(e, input_arr);
 	else if (!strcmp(input_arr[0], "/unignore") && ft_arrlen(input_arr) == 2)
-		unignore_nick(e, cs, input_arr);
+		unignore_nick(e, input_arr);
 	else
 		send(e->sock, e->fds[cs].buf_write, strlen(e->fds[cs].buf_write), 0);
 	if (!strncmp(input_arr[0], "/nick", 5) && ft_arrlen(input_arr) == 2 && \

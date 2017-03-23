@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 15:41:22 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/16 12:47:30 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/23 09:25:00 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void			handle_buf(t_env *e, int cs, char *buf)
 void				ring_buffer_write(t_env *e, int cs, char *msg)
 {
 	char			buf[BUF_SIZE + 1];
-	int				i;
-	int				j;
+	size_t			i;
+	size_t			j;
 
 	i = 0;
 	j = 0;
@@ -49,7 +49,7 @@ void				ring_buffer_write(t_env *e, int cs, char *msg)
 void				ring_buffer_read(t_env *e, int cs, char *msg)
 {
 	static char		buf[BUF_SIZE + 1];
-	int				i;
+	size_t			i;
 	static int		j = -1;
 
 	i = 0;

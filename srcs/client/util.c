@@ -6,7 +6,7 @@
 /*   By: hivian <hivian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 08:58:18 by hivian            #+#    #+#             */
-/*   Updated: 2017/03/17 13:04:46 by hivian           ###   ########.fr       */
+/*   Updated: 2017/03/23 09:23:26 by hivian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void					print_prompt(t_env *e)
 	ft_putstr("\033[0m");
 }
 
-void					clean_input(t_env *e)
+void					clean_input(void)
 {
 	char				tmp[BUF_SIZE];
 

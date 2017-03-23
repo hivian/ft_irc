@@ -89,7 +89,7 @@ void				send_msg(t_env *e, int cs, char **input_arr);
 void				concat_arr(char **concat_msg, char **input_arr);
 void				print_error(char *str);
 void				get_time(t_env *e);
-void				clean_input(t_env *e);
+void				clean_input(void);
 void				print_prompt(t_env *e);
 
 t_slist				*create_list(void);

@@ -44,7 +44,7 @@ static void			print_recv(t_env *e, int cs, char *buf)
 		ft_strdel(&trim);
 		return ;
 	}
-	clean_input(e);
+	clean_input();
 	printf("%s", e->fds[cs].buf_read);
 	memset(e->fds[cs].buf_read, 0, BUF_SIZE + 1);
 	ft_arrdel(input_arr);
@@ -55,7 +55,7 @@ void				client_write(t_env *e, int cs)
 {
 	if (e->fds[cs].buf_write[0] == '/')
 	{
-		clean_input(e);
+		clean_input();
 		run_cmd(e, cs);
 	}
 	else if (e->fds[cs].buf_write[0] != '\n')
@@ -66,14 +66,13 @@ void				client_write(t_env *e, int cs)
 void				client_read(t_env *e, int cs)
 {
 	int					ret;
-	int					i;
 	char				nick_changed[NICK_SIZE + 21];
 
 	if ((ret = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0)) <= 0)
 	{
 		close(cs);
 		clean_fd(cs, e);
-		clean_input(e);
+		clean_input();
 		print_error("\033[31mServer disconnected\033[0m");
 	}
 	e->fds[cs].buf_read[ret] = '\0';
