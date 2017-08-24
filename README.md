@@ -1,5 +1,6 @@
 # ft_irc
-IRC client/server - RFC 1459
+IRC client/server - RFC 1459 <br>
+Compiled under MacOSX
 
 ```
 ===================== - List of commands - ====================
